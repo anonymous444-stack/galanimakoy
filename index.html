@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior:smooth;">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gala Ni Makoy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0B0F14;
+      --panel:rgba(255,255,255,0.035);
+      --text:#EAEAEA;
+      --muted:rgba(234,234,234,0.78);
+      --gold:#C9A24D;
+      --line:rgba(255,255,255,0.09);
+      --shadow:0 22px 70px rgba(0,0,0,0.45);
+      --shadow2:0 16px 40px rgba(0,0,0,0.35);
+      --radius:20px;
+      --radius2:16px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      letter-spacing:0.2px;
+    }
+
+    .container{ width:min(1100px, 92vw); margin:0 auto; }
+
+    /* NAV */
+    nav{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      background:linear-gradient(to bottom, rgba(11,15,20,0.72), rgba(11,15,20,0.35));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .nav-inner{
+      width:min(1100px, 92vw);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+    .brand{
+      font-family:Cinzel, serif;
+      font-weight:700;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:14px;
+      opacity:0.96;
+      user-select:none;
+      white-space:nowrap;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .nav-links{ display:flex; gap:6px; align-items:center; }
+
+    .navlink, .navlink:visited{
+      color:rgba(234,234,234,0.9);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      opacity:0.82;
+      position:relative;
+      transition: transform 160ms ease, background 160ms ease, opacity 160ms ease;
+    }
+    .navlink:hover{
+      opacity:1;
+      background:rgba(255,255,255,0.075);
+      transform:translateY(-2px);
+    }
+
+    .navlink::after{
+      content:"";
+      position:absolute;
+      left:12px; right:12px;
+      bottom:6px;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity:0;
+      transform:scaleX(0.6);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+    .navlink:hover::after{ opacity:1; transform:scaleX(1); }
+
+    .navlink.active{
+      opacity:1;
+      background:transparent;
+      border:none;
+      color:rgba(234,234,234,0.98);
+    }
+    .navlink.active::after{
+      opacity:1;
+      transform:scaleX(1);
+    }
+
+    .navlink .dot{
+      display:inline-block;
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background:var(--gold);
+      margin-right:8px;
+      opacity:0;
+      transform:scale(0.6);
+      transition: opacity 160ms ease, transform 160ms ease;
+      box-shadow:0 0 0 6px rgba(201,162,77,0.10);
+      vertical-align:middle;
+    }
+    .navlink.active .dot{
+      opacity:1;
+      transform:scale(1);
+    }
+
+    /* SOCIAL ICONS (navbar) */
+    .socials{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding-left:10px;
+      border-left:1px solid rgba(255,255,255,0.10);
+    }
+    .icon-btn, .icon-btn:visited{
+      width:36px;
+      height:36px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease;
+      text-decoration:none;
+    }
+    .icon-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.22);
+    }
+    .icon{
+      width:18px;
+      height:18px;
+      fill:rgba(234,234,234,0.92);
+    }
+
+    /* HERO */
+    #home{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      padding:120px 0 70px;
+      position:relative;
+      background:url('assets/images/hero.jpg') center/cover no-repeat;
+      overflow:hidden;
+    }
+    #home::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 520px at 50% 60%, rgba(11,15,20,0.18), rgba(11,15,20,0.86)),
+        linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.80));
+      pointer-events:none;
+    }
+    #home::after{
+      content:"";
+      position:absolute;
+      width:620px; height:620px;
+      left:50%; top:62%;
+      transform:translate(-50%,-50%);
+      background:radial-gradient(circle, rgba(201,162,77,0.16), rgba(201,162,77,0));
+      filter:blur(2px);
+      pointer-events:none;
+    }
+
+    .hero-grid{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap:22px;
+      align-items:center;
+    }
+    .hero-title{
+      font-family:Cinzel, serif;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:2.4px;
+      font-size:56px;
+      line-height:1.05;
+      margin:0 0 12px 0;
+      text-shadow: 0 18px 40px rgba(0,0,0,0.42);
+      animation: floatIn 700ms ease both;
+    }
+    .hero-sub{
+      margin:0;
+      max-width:620px;
+      color:rgba(234,234,234,0.82);
+      line-height:1.75;
+      font-size:15px;
+      animation: floatIn 900ms ease both;
+    }
+    .hero-actions{
+      margin-top:22px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      animation: floatIn 1050ms ease both;
+    }
+
+    /* Generic buttons */
+    .btn-ghost, .btn-ghost:visited{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 16px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      letter-spacing:0.2px;
+      color:rgba(234,234,234,0.92);
+      background:rgba(255,255,255,0.045);
+      border:1px solid rgba(255,255,255,0.10);
+      transition: transform 160ms ease, background 160ms ease, border 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+      white-space:nowrap;
+    }
+    .btn-ghost:hover{
+      transform: translateY(-3px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.22);
+    }
+
+    /* Gold primary */
+    .btn-gold, .btn-gold:visited{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(180deg, #D7B561, #B78E33);
+      color:#0B0F14;
+      text-decoration:none;
+      padding:14px 18px;
+      border-radius:14px;
+      font-weight:700;
+      letter-spacing:0.2px;
+      box-shadow: 0 18px 52px rgba(201,162,77,0.22);
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+      white-space:nowrap;
+    }
+    .btn-gold:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 28px 74px rgba(201,162,77,0.30);
+      filter: brightness(1.03);
+    }
+
+    /* ✅ Social colored buttons */
+    .btn-social, .btn-social:visited{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 16px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:0.2px;
+      color:#0B0F14;
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+      white-space:nowrap;
+    }
+    .btn-social:hover{
+      transform: translateY(-3px);
+      filter: brightness(1.04);
+    }
+
+    .btn-fb{ background:#1877F2; box-shadow: 0 18px 52px rgba(24,119,242,0.25); }
+    .btn-yt{ background:#FF0000; box-shadow: 0 18px 52px rgba(255,0,0,0.22); }
+    .btn-tt{ background:#111111; color:#EAEAEA; box-shadow: 0 18px 52px rgba(0,0,0,0.35); }
+
+    /* Right hero card */
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      animation: floatIn 950ms ease both;
+    }
+    .mini{
+      font-size:12px;
+      color:rgba(234,234,234,0.72);
+      letter-spacing:0.4px;
+      margin:0 0 10px 0;
+    }
+    .stats{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    .stat{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:14px;
+      padding:12px;
+      transition: transform 160ms ease, border 160ms ease;
+    }
+    .stat:hover{
+      transform: translateY(-3px);
+      border:1px solid rgba(201,162,77,0.22);
+    }
+    .stat b{ display:block; font-size:18px; margin-bottom:4px; }
+    .stat span{ font-size:12px; color:rgba(234,234,234,0.72); }
+
+    /* SECTIONS */
+    .section{
+      padding:90px 0;
+      border-top:1px solid rgba(255,255,255,0.06);
+      background: radial-gradient(1200px 500px at 50% 0%, rgba(255,255,255,0.03), rgba(255,255,255,0) 55%);
+    }
+    .section.alt{
+      background:
+        radial-gradient(1000px 480px at 50% 0%, rgba(201,162,77,0.08), rgba(201,162,77,0) 55%),
+        linear-gradient(180deg, rgba(28,31,38,0.75), rgba(11,15,20,1));
+    }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:18px;
+    }
+    .section h2{
+      margin:0;
+      font-family:Cinzel, serif;
+      letter-spacing:1.4px;
+      text-transform:uppercase;
+      font-size:26px;
+    }
+    .section .hint{
+      margin:0;
+      color:rgba(234,234,234,0.70);
+      font-size:13px;
+      line-height:1.6;
+      max-width:520px;
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:16px;
+      margin-top:16px;
+    }
+    .card{
+      background:var(--panel);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: var(--shadow2);
+      transition: transform 170ms ease, border 170ms ease, background 170ms ease;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform: translateY(-5px);
+      border:1px solid rgba(201,162,77,0.22);
+      background:rgba(255,255,255,0.045);
+    }
+    .card h3{ margin:0 0 10px 0; font-size:16px; }
+    .card p{ margin:0; color:rgba(234,234,234,0.72); line-height:1.7; font-size:14px; }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:16px;
+    }
+    .g-item{
+      border-radius: var(--radius2);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
+      position:relative;
+      min-height:210px;
+      box-shadow: var(--shadow2);
+      transition: transform 180ms ease, border 180ms ease;
+    }
+    .g-item img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform 260ms ease, filter 260ms ease;
+      filter: saturate(1.03) contrast(1.02);
+    }
+    .g-item:hover{
+      transform: translateY(-6px);
+      border:1px solid rgba(201,162,77,0.24);
+    }
+    .g-item:hover img{
+      transform: scale(1.07);
+      filter: saturate(1.08) contrast(1.05);
+    }
+    .g-cap{
+      position:absolute;
+      left:12px; right:12px; bottom:12px;
+      padding:10px 12px;
+      border-radius:14px;
+      background:rgba(11,15,20,0.55);
+      border:1px solid rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      font-size:13px;
+      color:rgba(234,234,234,0.90);
+    }
+
+    footer{
+      border-top:1px solid rgba(255,255,255,0.08);
+      padding:26px 0 36px;
+      color:rgba(234,234,234,0.72);
+      font-size:13px;
+    }
+
+    @keyframes floatIn{
+      from{ opacity:0; transform: translateY(14px); }
+      to{ opacity:1; transform: translateY(0px); }
+    }
+
+    @media (max-width: 980px){
+      .hero-grid{ grid-template-columns: 1fr; }
+      .hero-title{ font-size:44px; }
+      .gallery{ grid-template-columns: 1fr 1fr; }
+      .socials{ border-left:none; padding-left:0; }
+    }
+    @media (max-width: 640px){
+      nav{ height:auto; padding:10px 0; }
+      .nav-inner{ flex-direction:column; gap:10px; }
+      .nav-right{ justify-content:center; }
+      #home{ padding:120px 0 60px; }
+      .hero-title{ font-size:36px; }
+      .grid-2{ grid-template-columns: 1fr; }
+      .gallery{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="brand">GALA NI MAKOY</div>
+
+      <div class="nav-right">
+        <div class="nav-links">
+          <a class="navlink" href="#home"><span class="dot"></span>Home</a>
+          <a class="navlink" href="#journey"><span class="dot"></span>Journey</a>
+          <a class="navlink" href="#rides"><span class="dot"></span>Rides</a>
+          <a class="navlink" href="#gallery"><span class="dot"></span>Gallery</a>
+          <a class="navlink" href="#contact"><span class="dot"></span>Contact</a>
+        </div>
+
+        <div class="socials">
+          <a class="icon-btn" href="https://www.facebook.com/profile.php?id=61587711260477" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
+            </svg>
+          </a>
+
+          <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
+            </svg>
+          </a>
+
+          <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section id="home">
+    <div class="container hero-grid">
+      <div>
+        <h1 class="hero-title">Gala ni Makoy</h1>
+        <p class="hero-sub">
+          Cinematic motor journeys through nature, roads, and freedom — ride stories, scenic routes, and real moments on the road.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn-gold" href="#journey">Follow the Journey</a>
+          <a class="btn-ghost" href="#contact">Collaborate</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <p class="mini">QUICK SNAPSHOT</p>
+        <div class="stats">
+          <div class="stat"><b>Road</b><span>Scenic routes</span></div>
+          <div class="stat"><b>Ride</b><span>Stories & tips</span></div>
+          <div class="stat"><b>Nature</b><span>Views & spots</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Journey</h2>
+        <p class="hint">A premium storytelling page — short, cinematic, and easy to follow.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Who is Makoy?</h3>
+          <p>Rider who loves roads, nature, and documenting real experiences across places.</p>
+        </div>
+        <div class="card">
+          <h3>What to expect</h3>
+          <p>Ride logs, scenic stops, route recommendations, and cinematic travel moments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="rides" class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Rides</h2>
+        <p class="hint">Showcase routes like episodes. Each ride has a highlight + location.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Featured Route</h3>
+          <p>Mountain twisties • sunrise ride • quick stops • scenic points.</p>
+        </div>
+        <div class="card">
+          <h3>Next Destination</h3>
+          <p>Coastal road • night ride • long highway cruise • local food stop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Gallery</h2>
+        <p class="hint">Hover each card for a premium zoom effect. Replace images anytime.</p>
+      </div>
+
+      <div class="gallery">
+        <div class="g-item">
+          <img src="assets/images/hero.jpg" alt="Ride 1">
+          <div class="g-cap">Golden Hour Ride</div>
+        </div>
+        <div class="g-item">
+          <img src="assets/images/hero1.jpg" alt="Ride 2">
+          <div class="g-cap">Mountain Roads</div>
+        </div>
+        <div class="g-item">
+          <img src="assets/images/hero2.jpg" alt="Ride 3">
+          <div class="g-cap">Nature Stops</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p class="hint">Sponsors / collaborations / ride invites — keep it simple and direct.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Collaboration</h3>
+          <p>Gear reviews, travel features, tourism shoots, brand campaigns.</p>
+        </div>
+        <div class="card">
+          <h3>Socials</h3>
+          <p>Follow the journey on Facebook, YouTube, and TikTok.</p>
+
+          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+            <!-- ✅ PUT YOUR REAL LINKS -->
+            <a class="btn-social btn-fb" href="https://www.facebook.com/profile.php?id=61587711260477" target="_blank" rel="noopener">Facebook</a>
+            <a class="btn-social btn-yt" href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
+            <a class="btn-social btn-tt" href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Gala Ni Makoy • Cinematic rides & nature journeys
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // ACTIVE NAV HIGHLIGHT
+    const navHeight = 72;
+    const links = [...document.querySelectorAll(".navlink")];
+    const sectionIds = ["home","journey","rides","gallery","contact"];
+    const sections = sectionIds.map(id => document.getElementById(id));
+
+    function setActive(id){
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
+    }
+
+    function updateActive(){
+      const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2);
+      if(atBottom){
+        setActive("contact");
+        return;
+      }
+
+      const y = window.scrollY + navHeight + 10;
+      let current = "home";
+
+      for(const sec of sections){
+        if(sec.offsetTop <= y) current = sec.id;
+      }
+      setActive(current);
+    }
+
+    window.addEventListener("scroll", updateActive, { passive:true });
+    window.addEventListener("load", updateActive);
+
+    links.forEach(a => a.addEventListener("click", () => {
+      const id = a.getAttribute("href").replace("#","");
+      setActive(id);
+    }));
+  </script>
+</body>
+</html>
