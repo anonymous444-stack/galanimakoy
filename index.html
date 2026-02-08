@@ -1343,7 +1343,37 @@
         <p class="hint">Tap a photo to open it in full cinematic view.</p>
       </div>
 
-      <div class="gallery" id="galleryGrid"></div>
+      <div class="gallery">
+        <div class="g-item tilt-card" data-caption="Golden Hour Ride">
+          <img src="assets/images/hero.jpg" alt="Ride 1">
+          <div class="g-cap">Golden Hour Ride</div>
+        </div>
+
+        <div class="g-item tilt-card" data-caption="Sea Side">
+          <img src="assets/images/hero1.jpg" alt="Ride 2">
+          <div class="g-cap">Sea Side</div>
+        </div>
+
+        <div class="g-item tilt-card" data-caption="Nature Stops">
+          <img src="assets/images/hero2.jpg" alt="Ride 3">
+          <div class="g-cap">Nature Stops</div>
+        </div>
+
+        <div class="g-item tilt-card" data-caption="Lovely River">
+          <img src="assets/images/hero3.jpg" alt="Ride 4">
+          <div class="g-cap">Lovely River</div>
+        </div>
+
+        <div class="g-item tilt-card" data-caption="Over View">
+          <img src="assets/images/hero4.jpg" alt="Ride 5">
+          <div class="g-cap">Over View</div>
+        </div>
+
+        <div class="g-item tilt-card" data-caption="Good Spot">
+          <img src="assets/images/hero5.png" alt="Ride 6">
+          <div class="g-cap">Good Spot</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1531,7 +1561,7 @@
       });
     }
 
-    /* ---------- GALLERY LIGHTBOX + SWIPE (dynamic) ---------- */
+    /* ---------- GALLERY LIGHTBOX + SWIPE ---------- */
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightboxImg");
     const lightboxTitle = document.getElementById("lightboxTitle");
@@ -1539,98 +1569,55 @@
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
 
-    const galleryContainer = document.getElementById('galleryGrid');
-    let galleryItems = [];
+    const galleryItems = [...document.querySelectorAll(".g-item img")];
     let currentIndex = 0;
-
-    function escapeHtml(s){
-      return String(s)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;');
-    }
-
-    async function loadGallery(){
-      if(!galleryContainer) return;
-      try{
-        const res = await fetch('assets/images/photos.json');
-        if(!res.ok) throw new Error('Failed to load photos.json');
-        const photos = await res.json();
-        galleryContainer.innerHTML = photos.map((p,i) => (
-          `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption||'')}">`+
-            `<img src="${escapeHtml(p.src||'')}" alt="${escapeHtml(p.caption||'Photo')}" loading="lazy" data-index="${i}">`+
-            `<div class="g-cap">${escapeHtml(p.caption||'')}</div>`+
-          `</div>`
-        )).join('');
-
-        // refresh galleryItems and attach handlers
-        galleryItems = [...document.querySelectorAll('.g-item img')];
-        galleryItems.forEach((img,i) => {
-          img.addEventListener('click', () => openLightbox(i));
-          img.style.cursor = 'pointer';
-        });
-
-        // initialize tilt on new elements (avoid duplicate listeners)
-        if(supportsHover){
-          const newTilts = document.querySelectorAll('.tilt-card');
-          newTilts.forEach(el => {
-            if(!el.dataset.tiltInited){
-              setVars(el,50,50);
-              el.addEventListener('mousemove', (e) => applyTilt(el,e));
-              el.addEventListener('mouseleave', () => resetTilt(el));
-              el.dataset.tiltInited = '1';
-            }
-          });
-        }
-
-      }catch(err){
-        console.error('Error loading gallery:', err);
-      }
-    }
 
     function openLightbox(index){
       currentIndex = index;
       const img = galleryItems[currentIndex];
-      const cap = img.closest('.g-item')?.dataset?.caption || img.alt || 'Photo';
+      const cap = img.closest(".g-item")?.dataset?.caption || img.alt || "Photo";
       lightboxImg.src = img.src;
       lightboxTitle.textContent = cap;
-      lightbox.classList.add('show');
-      document.body.style.overflow = 'hidden';
+
+      lightbox.classList.add("show");
+      document.body.style.overflow = "hidden";
     }
 
     function closeLightbox(){
-      lightbox.classList.remove('show');
-      document.body.style.overflow = '';
-      lightboxImg.src = '';
+      lightbox.classList.remove("show");
+      document.body.style.overflow = "";
+      lightboxImg.src = "";
     }
 
     function showPrev(){
-      if(!galleryItems.length) return;
       currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
       openLightbox(currentIndex);
     }
     function showNext(){
-      if(!galleryItems.length) return;
       currentIndex = (currentIndex + 1) % galleryItems.length;
       openLightbox(currentIndex);
     }
 
-    closeBtn.addEventListener('click', closeLightbox);
-    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
-    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
-
-    lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
-
-    window.addEventListener('keydown', (e) => {
-      if(!lightbox.classList.contains('show')) return;
-      if(e.key === 'Escape') closeLightbox();
-      if(e.key === 'ArrowLeft') showPrev();
-      if(e.key === 'ArrowRight') showNext();
+    galleryItems.forEach((img, i) => {
+      img.addEventListener("click", () => openLightbox(i));
+      img.style.cursor = "pointer";
     });
 
-    // start load
-    loadGallery();
+    closeBtn.addEventListener("click", closeLightbox);
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
+
+    lightbox.addEventListener("click", (e) => {
+      if(e.target === lightbox) closeLightbox();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if(lightbox.classList.contains("show")){
+        if(e.key === "Escape") closeLightbox();
+        if(e.key === "ArrowLeft") showPrev();
+        if(e.key === "ArrowRight") showNext();
+      }
+    });
 
     let touchX = 0;
     lightboxImg.addEventListener("touchstart", (e) => {
