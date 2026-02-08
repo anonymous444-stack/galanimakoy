@@ -5,14 +5,6 @@
   <title>Gala Ni Makoy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO / Social Share (optional but professional) -->
-  <meta name="description" content="Cinematic motor journeys through nature, roads, and freedom — ride stories, scenic routes, and real moments on the road.">
-  <meta property="og:title" content="Gala ni Makoy">
-  <meta property="og:description" content="Cinematic rides • nature • freedom. Ride stories and scenic routes.">
-  <meta property="og:type" content="website">
-  <!-- If you want a preview image when sharing link, set this to a real image URL later -->
-  <!-- <meta property="og:image" content="https://YOUR_DOMAIN/assets/images/hero.jpg"> -->
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -20,6 +12,7 @@
   <style>
     :root{
       --bg:#0B0F14;
+      --bg2:#070A0F;
       --panel:rgba(255,255,255,0.035);
       --text:#EAEAEA;
       --muted:rgba(234,234,234,0.78);
@@ -29,13 +22,17 @@
       --shadow2:0 16px 40px rgba(0,0,0,0.35);
       --radius:20px;
       --radius2:16px;
-      --easeOut: cubic-bezier(.16,1,.3,1);
+
+      --easeOut:cubic-bezier(.2,.9,.2,1);
+      --easeSoft:cubic-bezier(.2,.8,.2,1);
     }
 
     *{ box-sizing:border-box; }
     body{
       margin:0;
-      background:var(--bg);
+      background: radial-gradient(1200px 700px at 50% -10%, rgba(201,162,77,0.08), transparent 55%),
+                  radial-gradient(900px 520px at 10% 10%, rgba(255,255,255,0.04), transparent 60%),
+                  linear-gradient(180deg, var(--bg2), var(--bg));
       color:var(--text);
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       letter-spacing:0.2px;
@@ -46,6 +43,18 @@
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; }
       html{ scroll-behavior:auto; }
+    }
+
+    /* subtle film grain */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      opacity:.10;
+      z-index:2;
     }
 
     .container{ width:min(1100px, 92vw); margin:0 auto; }
@@ -59,7 +68,7 @@
       align-items:center;
       justify-content:center;
       z-index:999;
-      background:linear-gradient(to bottom, rgba(11,15,20,0.75), rgba(11,15,20,0.30));
+      background:linear-gradient(to bottom, rgba(11,15,20,0.78), rgba(11,15,20,0.30));
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom:1px solid rgba(255,255,255,0.08);
@@ -70,6 +79,7 @@
       align-items:center;
       justify-content:space-between;
       gap:16px;
+      position:relative;
     }
     .brand{
       font-family:Cinzel, serif;
@@ -89,8 +99,16 @@
       flex-wrap:wrap;
       justify-content:flex-end;
     }
-
-    .nav-links{ display:flex; gap:6px; align-items:center; }
+    .nav-links{
+      display:flex;
+      gap:6px;
+      align-items:center;
+      position:relative;
+      padding:6px;
+      border-radius:16px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.06);
+    }
 
     .navlink, .navlink:visited{
       color:rgba(234,234,234,0.9);
@@ -100,13 +118,17 @@
       font-size:13px;
       opacity:0.82;
       position:relative;
-      transition: transform 180ms ease, background 180ms ease, opacity 180ms ease;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), opacity 180ms var(--easeSoft);
       will-change: transform;
+      outline:none;
     }
     .navlink:hover{
       opacity:1;
       background:rgba(255,255,255,0.075);
       transform:translateY(-2px);
+    }
+    .navlink:focus-visible{
+      box-shadow:0 0 0 3px rgba(201,162,77,0.25);
     }
 
     .navlink::after{
@@ -118,14 +140,13 @@
       background:linear-gradient(90deg, transparent, var(--gold), transparent);
       opacity:0;
       transform:scaleX(0.6);
-      transition: opacity 180ms ease, transform 180ms ease;
+      transition: opacity 180ms var(--easeSoft), transform 180ms var(--easeSoft);
     }
     .navlink:hover::after{ opacity:1; transform:scaleX(1); }
 
     .navlink.active{
       opacity:1;
-      background:transparent;
-      border:none;
+      background:rgba(255,255,255,0.06);
       color:rgba(234,234,234,0.98);
     }
     .navlink.active::after{
@@ -142,7 +163,7 @@
       margin-right:8px;
       opacity:0;
       transform:scale(0.6);
-      transition: opacity 180ms ease, transform 180ms ease;
+      transition: opacity 180ms var(--easeSoft), transform 180ms var(--easeSoft);
       box-shadow:0 0 0 6px rgba(201,162,77,0.10);
       vertical-align:middle;
     }
@@ -168,19 +189,34 @@
       border-radius:12px;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.10);
-      transition: transform 180ms ease, background 180ms ease, border 180ms ease;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
       text-decoration:none;
       will-change: transform;
+      position:relative;
+      overflow:hidden;
+    }
+    .icon-btn::after{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(220px 110px at 20% 20%, rgba(201,162,77,0.18), transparent 55%);
+      opacity:0;
+      transition: opacity 180ms var(--easeSoft);
+      pointer-events:none;
     }
     .icon-btn:hover{
-      transform:translateY(-2px) scale(1.03);
+      transform:translateY(-2px) scale(1.04);
       background:rgba(255,255,255,0.06);
       border:1px solid rgba(201,162,77,0.22);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
     }
+    .icon-btn:hover::after{ opacity:1; }
     .icon{
       width:18px;
       height:18px;
       fill:rgba(234,234,234,0.92);
+      position:relative;
+      z-index:1;
     }
 
     /* HERO */
@@ -191,36 +227,55 @@
       padding:120px 0 70px;
       position:relative;
       overflow:hidden;
-      background: url('assets/images/hero.jpg') center var(--heroY, 50%) / cover no-repeat;
+      background:url('assets/images/hero.jpg') center var(--heroY, 50%) / cover no-repeat;
+      isolation:isolate;
     }
     #home::before{
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(900px 520px at 50% 60%, rgba(11,15,20,0.18), rgba(11,15,20,0.86)),
-        linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.82));
+        radial-gradient(1000px 560px at 50% 60%, rgba(11,15,20,0.14), rgba(11,15,20,0.88)),
+        linear-gradient(to bottom, rgba(0,0,0,0.56), rgba(0,0,0,0.22) 45%, rgba(0,0,0,0.86));
       pointer-events:none;
+      z-index:0;
     }
-    /* removed extra gold glow to avoid any “yellow mark” */
-    #home::after{ content:none; }
+   #home::after{ content:none; }
+
+    @keyframes slowFloat{
+      from{ transform:translate(-50%,-50%) scale(1); opacity:.9; }
+      to{ transform:translate(-50%,-50%) scale(1.06); opacity:.75; }
+    }
 
     .hero-grid{
       position:relative;
-      z-index:2;
+      z-index:1;
       display:grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap:22px;
       align-items:center;
     }
+
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:rgba(234,234,234,0.72);
+      margin-bottom:10px;
+    }
+    .hero-kicker i{display:none}
+      
     .hero-title{
       font-family:Cinzel, serif;
       font-weight:700;
       text-transform:uppercase;
-      letter-spacing:2.4px;
-      font-size:56px;
-      line-height:1.05;
+      letter-spacing:2.6px;
+      font-size:58px;
+      line-height:1.03;
       margin:0 0 12px 0;
-      text-shadow: 0 18px 40px rgba(0,0,0,0.42);
+      text-shadow: 0 18px 46px rgba(0,0,0,0.45);
     }
     .hero-sub{
       margin:0;
@@ -250,10 +305,11 @@
       color:rgba(234,234,234,0.92);
       background:rgba(255,255,255,0.045);
       border:1px solid rgba(255,255,255,0.10);
-      transition: transform 180ms ease, background 180ms ease, border 180ms ease, box-shadow 180ms ease;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
       white-space:nowrap;
       will-change: transform;
-      cursor:pointer;
+      position:relative;
+      overflow:hidden;
     }
     .btn-ghost:hover{
       transform: translateY(-3px);
@@ -261,7 +317,6 @@
       border:1px solid rgba(201,162,77,0.22);
       box-shadow: 0 18px 48px rgba(0,0,0,0.25);
     }
-    .btn-ghost:active{ transform: translateY(-1px) scale(0.99); }
 
     .btn-gold, .btn-gold:visited{
       display:inline-flex;
@@ -274,14 +329,12 @@
       text-decoration:none;
       padding:14px 18px;
       border-radius:14px;
-      font-weight:800;
+      font-weight:900;
       letter-spacing:0.2px;
       box-shadow: 0 18px 52px rgba(201,162,77,0.22);
-      transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      transition: transform 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft), filter 180ms var(--easeSoft);
       white-space:nowrap;
       will-change: transform;
-      cursor:pointer;
-      border:none;
     }
     .btn-gold::before{
       content:"";
@@ -293,37 +346,42 @@
       transform: rotate(20deg);
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
       opacity:0;
-      transition: opacity 200ms ease;
+      transition: opacity 200ms var(--easeSoft);
     }
     .btn-gold:hover{
       transform: translateY(-3px);
-      box-shadow: 0 28px 74px rgba(201,162,77,0.30);
+      box-shadow: 0 30px 78px rgba(201,162,77,0.30);
       filter: brightness(1.03);
     }
     .btn-gold:hover::before{
       opacity:1;
       animation: sweep 850ms var(--easeOut);
     }
-    .btn-gold:active{ transform: translateY(-1px) scale(0.99); }
-    @keyframes sweep{ from{ left:-30%; } to{ left:120%; } }
+    @keyframes sweep{
+      from{ left:-30%; }
+      to{ left:120%; }
+    }
 
     /* hero card */
     .hero-card{
       position:relative;
       overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
       border:1px solid rgba(255,255,255,0.10);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding:18px;
+      transform-style:preserve-3d;
     }
     .hero-card::before{
       content:"";
       position:absolute;
       inset:-2px;
-      background: radial-gradient(450px 220px at 20% 10%, rgba(201,162,77,0.14), transparent 55%);
+      background:
+        radial-gradient(450px 220px at 20% 10%, rgba(201,162,77,0.16), transparent 55%),
+        radial-gradient(420px 240px at 90% 80%, rgba(255,255,255,0.08), transparent 60%);
       opacity:0;
-      transition: opacity 220ms ease;
+      transition: opacity 220ms var(--easeSoft);
       pointer-events:none;
     }
     .hero-card:hover::before{ opacity:1; }
@@ -333,6 +391,7 @@
       color:rgba(234,234,234,0.72);
       letter-spacing:0.4px;
       margin:0 0 10px 0;
+      text-transform:uppercase;
     }
     .stats{
       display:grid;
@@ -345,22 +404,26 @@
       border:1px solid rgba(255,255,255,0.08);
       border-radius:14px;
       padding:12px;
-      transition: transform 180ms ease, border 180ms ease, background 180ms ease;
+      transition: transform 220ms var(--easeSoft), border 220ms var(--easeSoft), background 220ms var(--easeSoft), box-shadow 220ms var(--easeSoft);
       will-change: transform;
+      transform-style:preserve-3d;
     }
     .stat:hover{
-      transform: translateY(-4px);
-      border:1px solid rgba(201,162,77,0.22);
+      transform: translateY(-6px);
+      border:1px solid rgba(201,162,77,0.24);
       background:rgba(255,255,255,0.04);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.35);
     }
     .stat b{ display:block; font-size:18px; margin-bottom:4px; }
     .stat span{ font-size:12px; color:rgba(234,234,234,0.72); }
 
     /* SECTIONS */
     .section{
-      padding:90px 0;
+      padding:92px 0;
       border-top:1px solid rgba(255,255,255,0.06);
       background: radial-gradient(1200px 500px at 50% 0%, rgba(255,255,255,0.03), rgba(255,255,255,0) 55%);
+      position:relative;
+      z-index:1;
     }
     .section.alt{
       background:
@@ -395,6 +458,8 @@
       gap:16px;
       margin-top:16px;
     }
+
+    /* premium card */
     .card{
       position:relative;
       overflow:hidden;
@@ -403,8 +468,21 @@
       border-radius: var(--radius);
       padding:18px;
       box-shadow: var(--shadow2);
-      transition: transform 220ms var(--easeOut), border 220ms var(--easeOut), background 220ms var(--easeOut);
+      transition: transform 260ms var(--easeOut), border 260ms var(--easeOut), background 260ms var(--easeOut), box-shadow 260ms var(--easeOut);
       will-change: transform;
+      transform-style:preserve-3d;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      border-radius:inherit;
+      background:
+        radial-gradient(420px 220px at var(--mx, 20%) var(--my, 10%), rgba(201,162,77,0.16), transparent 55%),
+        radial-gradient(520px 260px at 110% 120%, rgba(255,255,255,0.06), transparent 60%);
+      opacity:0;
+      transition: opacity 220ms var(--easeSoft);
+      pointer-events:none;
     }
     .card::after{
       content:"";
@@ -414,24 +492,48 @@
       width:60%;
       height:220%;
       transform: rotate(22deg);
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
       opacity:0;
       pointer-events:none;
     }
     .card:hover{
-      transform: translateY(-6px);
       border:1px solid rgba(201,162,77,0.22);
       background:rgba(255,255,255,0.045);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.50);
     }
+    .card:hover::before{ opacity:1; }
     .card:hover::after{
       opacity:1;
       animation: sweep2 950ms var(--easeOut);
     }
-    @keyframes sweep2{ from{ left:-60%; } to{ left:140%; } }
-
+    @keyframes sweep2{
+      from{ left:-60%; }
+      to{ left:140%; }
+    }
     .card h3{ margin:0 0 10px 0; font-size:16px; }
     .card p{ margin:0; color:rgba(234,234,234,0.72); line-height:1.7; font-size:14px; }
 
+    /* CONTACT FORM inputs */
+    .f-input, .f-textarea{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      color:rgba(234,234,234,0.92);
+      outline:none;
+      transition: border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft), background 180ms var(--easeSoft);
+      font-family: inherit;
+      font-size:14px;
+    }
+    .f-textarea{ resize:vertical; min-height:120px; }
+    .f-input:focus, .f-textarea:focus{
+      border:1px solid rgba(201,162,77,0.28);
+      box-shadow: 0 0 0 3px rgba(201,162,77,0.16);
+      background:rgba(255,255,255,0.05);
+    }
+
+    /* GALLERY */
     .gallery{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -444,28 +546,40 @@
       border:1px solid rgba(255,255,255,0.08);
       background:rgba(255,255,255,0.02);
       position:relative;
-      min-height:210px;
+      min-height:220px;
       box-shadow: var(--shadow2);
-      transition: transform 240ms var(--easeOut), border 240ms var(--easeOut), box-shadow 240ms var(--easeOut);
+      transition: transform 260ms var(--easeOut), border 260ms var(--easeOut), box-shadow 260ms var(--easeOut);
       will-change: transform;
+      cursor:pointer;
+      transform-style:preserve-3d;
     }
+    .g-item::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(420px 220px at var(--mx, 30%) var(--my, 30%), rgba(201,162,77,0.16), transparent 55%);
+      opacity:0;
+      transition: opacity 220ms var(--easeSoft);
+      pointer-events:none;
+      z-index:1;
+    }
+    .g-item:hover::before{ opacity:1; }
     .g-item img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
-      transform: scale(1.02);
-      transition: transform 360ms var(--easeOut), filter 360ms var(--easeOut);
-      filter: saturate(1.03) contrast(1.02);
+      transform: scale(1.03);
+      transition: transform 420ms var(--easeOut), filter 420ms var(--easeOut);
+      filter: saturate(1.04) contrast(1.02);
     }
     .g-item:hover{
-      transform: translateY(-8px);
       border:1px solid rgba(201,162,77,0.24);
-      box-shadow: 0 26px 80px rgba(0,0,0,0.45);
+      box-shadow: 0 32px 110px rgba(0,0,0,0.55);
     }
     .g-item:hover img{
-      transform: scale(1.09);
-      filter: saturate(1.10) contrast(1.06);
+      transform: scale(1.12);
+      filter: saturate(1.12) contrast(1.06);
     }
     .g-cap{
       position:absolute;
@@ -478,6 +592,14 @@
       -webkit-backdrop-filter: blur(12px);
       font-size:13px;
       color:rgba(234,234,234,0.90);
+      z-index:2;
+      transform: translateY(6px);
+      opacity:.92;
+      transition: transform 220ms var(--easeSoft), opacity 220ms var(--easeSoft);
+    }
+    .g-item:hover .g-cap{
+      transform: translateY(0);
+      opacity:1;
     }
 
     footer{
@@ -485,14 +607,16 @@
       padding:26px 0 36px;
       color:rgba(234,234,234,0.72);
       font-size:13px;
+      position:relative;
+      z-index:1;
     }
 
-    /* scroll reveal */
+    /* reveal */
     .reveal{
       opacity:0;
       transform: translateY(18px);
-      filter: blur(6px);
-      transition: opacity 800ms var(--easeOut), transform 800ms var(--easeOut), filter 900ms var(--easeOut);
+      filter: blur(7px);
+      transition: opacity 900ms var(--easeOut), transform 900ms var(--easeOut), filter 950ms var(--easeOut);
     }
     .reveal.show{
       opacity:1;
@@ -500,169 +624,145 @@
       filter: blur(0);
     }
 
-    /* CONTACT FORM STYLES */
-    .form{
-      display:grid;
-      gap:12px;
-      margin-top:10px;
-    }
-    .field{
-      width:100%;
-      padding:12px 14px;
-      border-radius:14px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.10);
-      color:rgba(234,234,234,0.92);
-      outline:none;
-      transition: border 200ms var(--easeOut), background 200ms var(--easeOut), transform 200ms var(--easeOut);
-      font-size:14px;
-    }
-    .field::placeholder{ color:rgba(234,234,234,0.45); }
-    .field:focus{
-      border:1px solid rgba(201,162,77,0.28);
-      background:rgba(255,255,255,0.055);
-      transform: translateY(-1px);
-    }
-    textarea.field{ min-height:120px; resize:vertical; }
-
-    /* Toast (success / error) */
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform: translateX(-50%) translateY(12px);
-      opacity:0;
-      pointer-events:none;
-      padding:12px 14px;
-      border-radius:14px;
-      background:rgba(15,18,24,0.75);
-      border:1px solid rgba(255,255,255,0.12);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
-      color:rgba(234,234,234,0.92);
-      font-size:13px;
-      transition: opacity 220ms var(--easeOut), transform 220ms var(--easeOut);
-      z-index:9999;
-    }
-    .toast.show{
-      opacity:1;
-      transform: translateX(-50%) translateY(0);
-    }
-    .toast strong{ color:#fff; }
-
-    /* Lightbox */
+    /* LIGHTBOX */
     .lightbox{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,0.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       display:none;
       align-items:center;
       justify-content:center;
-      padding:18px;
-      z-index:9998;
+      background:rgba(0,0,0,0.84);
+      z-index:5000;
+      padding:22px;
+      opacity:0;
+      transition: opacity 240ms var(--easeOut);
     }
-    .lightbox.show{ display:flex; animation: fadeIn 180ms var(--easeOut); }
-    @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+    .lightbox.show{
+      display:flex;
+      opacity:1;
+    }
 
-    .lb-card{
-      width:min(980px, 95vw);
+    .lightbox-panel{
+      width:min(1000px, 92vw);
       max-height:88vh;
-      background:rgba(15,18,24,0.55);
-      border:1px solid rgba(255,255,255,0.14);
       border-radius:22px;
       overflow:hidden;
-      box-shadow: 0 30px 120px rgba(0,0,0,0.55);
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(11,15,20,0.55);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 36px 130px rgba(0,0,0,0.70);
       position:relative;
+      transform: translateY(14px) scale(0.96);
+      opacity:0;
+      transition: transform 280ms var(--easeOut), opacity 280ms var(--easeOut);
+      will-change: transform, opacity;
     }
-    .lb-img{
+    .lightbox.show .lightbox-panel{
+      transform: translateY(0) scale(1);
+      opacity:1;
+    }
+    .lightbox-img{
       width:100%;
-      height:88vh;
-      max-height:88vh;
+      height:70vh;
+      max-height:70vh;
       object-fit:contain;
       display:block;
       background:rgba(0,0,0,0.35);
-      animation: zoomIn 220ms var(--easeOut);
+      user-select:none;
+      -webkit-user-drag:none;
     }
-    @keyframes zoomIn{
-      from{ transform: scale(0.98); filter: blur(2px); opacity:0.7; }
-      to{ transform: scale(1); filter: blur(0); opacity:1; }
-    }
-
-    .lb-topbar{
-      position:absolute;
-      left:12px; right:12px; top:12px;
+    .lightbox-bar{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:10px;
-      pointer-events:none;
-    }
-    .lb-chip{
-      pointer-events:auto;
-      padding:8px 10px;
-      border-radius:999px;
-      background:rgba(0,0,0,0.35);
-      border:1px solid rgba(255,255,255,0.14);
+      gap:14px;
+      padding:12px 14px;
+      border-top:1px solid rgba(255,255,255,0.08);
       color:rgba(234,234,234,0.9);
-      font-size:12px;
+      font-size:13px;
+    }
+    .lightbox-title{
+      opacity:0.9;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
     }
     .lb-btn{
-      pointer-events:auto;
-      width:40px; height:40px;
+      width:40px;
+      height:40px;
       border-radius:14px;
-      background:rgba(0,0,0,0.35);
-      border:1px solid rgba(255,255,255,0.14);
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.05);
+      color:rgba(234,234,234,0.92);
+      cursor:pointer;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      cursor:pointer;
-      transition: transform 160ms var(--easeOut), background 160ms var(--easeOut), border 160ms var(--easeOut);
-      color:#fff;
-      font-size:18px;
       user-select:none;
-    }
-    .lb-btn:hover{
-      transform: translateY(-2px);
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(201,162,77,0.22);
-    }
-    .lb-nav{
-      position:absolute;
-      top:50%;
-      transform: translateY(-50%);
-      width:46px; height:46px;
-      border-radius:16px;
-      background:rgba(0,0,0,0.35);
-      border:1px solid rgba(255,255,255,0.14);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      user-select:none;
-      transition: transform 160ms var(--easeOut), background 160ms var(--easeOut), border 160ms var(--easeOut);
-      color:#fff;
-      font-size:22px;
-    }
-    .lb-nav:hover{
-      transform: translateY(-50%) translateY(-2px);
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(201,162,77,0.22);
-    }
-    .lb-prev{ left:10px; }
-    .lb-next{ right:10px; }
-
-    /* hidden anti-spam field */
-    .hidden{
-      position:absolute;
-      left:-9999px;
-      width:1px;
-      height:1px;
+      position:relative;
       overflow:hidden;
     }
+    .lb-btn:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,0.07);
+      border:1px solid rgba(201,162,77,0.22);
+      box-shadow: 0 16px 50px rgba(0,0,0,0.35);
+    }
+    .lb-controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
 
+    /* Social icons in contact card */
+    .social-icons{
+      margin-top:14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .social-icon, .social-icon:visited{
+      width:46px;
+      height:46px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:14px;
+      text-decoration:none;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      transition: transform 180ms var(--easeSoft), filter 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
+      will-change: transform;
+      position:relative;
+      overflow:hidden;
+    }
+    .social-icon::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(260px 160px at 20% 10%, rgba(255,255,255,0.22), transparent 55%);
+      opacity:0;
+      transition: opacity 180ms var(--easeSoft);
+      pointer-events:none;
+    }
+    .social-icon:hover{
+      transform: translateY(-3px) scale(1.03);
+      border:1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+    }
+    .social-icon:hover::after{ opacity:1; }
+
+    .social-icon svg{ width:20px; height:20px; fill:#0B0F14; position:relative; z-index:1; }
+
+    .social-icon.fb{ background:#1877F2; }
+    .social-icon.yt{ background:#FF0000; }
+    .social-icon.tt{ background:#111111; border:1px solid rgba(255,255,255,0.12); }
+    .social-icon.tt svg{ fill:#EAEAEA; }
+
+    /* responsive */
     @media (max-width: 980px){
       .hero-grid{ grid-template-columns: 1fr; }
       .hero-title{ font-size:44px; }
@@ -677,23 +777,12 @@
       .hero-title{ font-size:36px; }
       .grid-2{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr; }
-      .lb-nav{ display:none; } /* swipe will be used on mobile */
+      .nav-links{ flex-wrap:wrap; justify-content:center; }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- Google Analytics 4 (OPTIONAL) -->
-  <!-- Replace G-XXXXXXXXXX with your real GA4 Measurement ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-
   <nav>
     <div class="nav-inner">
       <div class="brand">GALA NI MAKOY</div>
@@ -713,13 +802,11 @@
               <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
-
           <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
           </a>
-
           <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
@@ -733,6 +820,7 @@
   <section id="home">
     <div class="container hero-grid reveal show">
       <div>
+        <div class="hero-kicker"><i></i> Cinematic rides • nature • freedom</div>
         <h1 class="hero-title">Gala ni Makoy</h1>
         <p class="hero-sub">
           Cinematic motor journeys through nature, roads, and freedom — ride stories, scenic routes, and real moments on the road.
@@ -744,12 +832,12 @@
         </div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card tilt-card">
         <p class="mini">QUICK SNAPSHOT</p>
         <div class="stats">
-          <div class="stat"><b>Road</b><span>Scenic routes</span></div>
-          <div class="stat"><b>Ride</b><span>Stories & tips</span></div>
-          <div class="stat"><b>Nature</b><span>Views & spots</span></div>
+          <div class="stat tilt-card"><b>Road</b><span>Scenic routes</span></div>
+          <div class="stat tilt-card"><b>Ride</b><span>Stories & tips</span></div>
+          <div class="stat tilt-card"><b>Nature</b><span>Views & spots</span></div>
         </div>
       </div>
     </div>
@@ -763,11 +851,11 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card tilt-card">
           <h3>Who is Makoy?</h3>
           <p>Rider who loves roads, nature, and documenting real experiences across places.</p>
         </div>
-        <div class="card">
+        <div class="card tilt-card">
           <h3>What to expect</h3>
           <p>Ride logs, scenic stops, route recommendations, and cinematic travel moments.</p>
         </div>
@@ -783,11 +871,11 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
+        <div class="card tilt-card">
           <h3>Featured Route</h3>
           <p>Mountain twisties • sunrise ride • quick stops • scenic points.</p>
         </div>
-        <div class="card">
+        <div class="card tilt-card">
           <h3>Next Destination</h3>
           <p>Coastal road • night ride • long highway cruise • local food stop.</p>
         </div>
@@ -799,13 +887,22 @@
     <div class="container reveal">
       <div class="section-head">
         <h2>Photos</h2>
-        <p class="hint">Hover to zoom. Click to view large.</p>
+        <p class="hint">Tap a photo to open it in full cinematic view.</p>
       </div>
 
       <div class="gallery">
-        <div class="g-item"><img src="assets/images/hero.jpg" alt="Golden Hour Ride" data-cap="Golden Hour Ride"><div class="g-cap">Golden Hour Ride</div></div>
-        <div class="g-item"><img src="assets/images/hero1.jpg" alt="Mountain Roads" data-cap="Mountain Roads"><div class="g-cap">Mountain Roads</div></div>
-        <div class="g-item"><img src="assets/images/hero2.jpg" alt="Nature Stops" data-cap="Nature Stops"><div class="g-cap">Nature Stops</div></div>
+        <div class="g-item tilt-card" data-caption="Golden Hour Ride">
+          <img src="assets/images/hero.jpg" alt="Ride 1">
+          <div class="g-cap">Golden Hour Ride</div>
+        </div>
+        <div class="g-item tilt-card" data-caption="Mountain Roads">
+          <img src="assets/images/hero1.jpg" alt="Ride 2">
+          <div class="g-cap">Mountain Roads</div>
+        </div>
+        <div class="g-item tilt-card" data-caption="Nature Stops">
+          <img src="assets/images/hero2.jpg" alt="Ride 3">
+          <div class="g-cap">Nature Stops</div>
+        </div>
       </div>
     </div>
   </section>
@@ -818,35 +915,51 @@
       </div>
 
       <div class="grid-2">
-        <div class="card">
-          <h3>Collaboration</h3>
-          <p>Gear reviews, travel features, tourism shoots, brand campaigns.</p>
-        </div>
-
-        <div class="card">
+        <!-- CONTACT FORM (Netlify Forms) -->
+        <div class="card tilt-card">
           <h3>Send a message</h3>
-          <p style="margin:0 0 12px 0; color:rgba(234,234,234,0.72);">For collaborations, sponsors, or ride invites.</p>
+          <p style="margin-bottom:14px;">For collaborations, sponsors, or ride invites.</p>
 
-          <!-- NETLIFY FORM (NO BACKEND NEEDED) -->
-          <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-            <!-- required hidden input -->
+          <!-- Netlify Forms -->
+          <form name="contact" method="POST" data-netlify="true">
             <input type="hidden" name="form-name" value="contact" />
 
-            <!-- honeypot anti-spam -->
-            <div class="hidden">
-              <label>Don’t fill this out: <input name="bot-field" /></label>
+            <div style="display:grid; gap:10px;">
+              <input class="f-input" name="name" required placeholder="Your name" />
+              <input class="f-input" type="email" name="email" required placeholder="Your email" />
+              <textarea class="f-textarea" name="message" required placeholder="Your message" rows="5"></textarea>
+
+              <button class="btn-gold" type="submit" style="border:none; cursor:pointer;">
+                Send Message
+              </button>
             </div>
-
-            <input class="field" type="text" name="name" placeholder="Your name" required>
-            <input class="field" type="email" name="email" placeholder="Your email" required>
-            <textarea class="field" name="message" placeholder="Your message" required></textarea>
-
-            <button class="btn-gold" id="sendBtn" type="submit">Send Message</button>
           </form>
+        </div>
 
-          <p style="margin:10px 0 0; font-size:12px; color:rgba(234,234,234,0.55); line-height:1.5;">
-            Tip: After your first test submission, check <b>Netlify → Forms</b> to see messages.
-          </p>
+        <!-- SOCIALS -->
+        <div class="card tilt-card">
+          <h3>Socials</h3>
+          <p>Follow the journey on Facebook, YouTube, and TikTok.</p>
+
+          <div class="social-icons">
+            <a class="social-icon fb" href="https://www.facebook.com/profile.php?id=61587711260477" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
+              </svg>
+            </a>
+
+            <a class="social-icon yt" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
+              </svg>
+            </a>
+
+            <a class="social-icon tt" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -858,29 +971,25 @@
     </div>
   </footer>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-
-  <!-- Lightbox -->
+  <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
-    <div class="lb-card" role="dialog" aria-modal="true" aria-label="Image viewer">
-      <img class="lb-img" id="lbImg" src="" alt="">
-      <div class="lb-topbar">
-        <div class="lb-chip" id="lbChip">1 / 1</div>
-        <div style="display:flex; gap:10px;">
-          <div class="lb-btn" id="lbClose" title="Close">✕</div>
+    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Photo viewer">
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Viewing photo">
+      <div class="lightbox-bar">
+        <div class="lightbox-title" id="lightboxTitle">Photo</div>
+        <div class="lb-controls">
+          <button class="lb-btn" id="prevBtn" aria-label="Previous photo">‹</button>
+          <button class="lb-btn" id="nextBtn" aria-label="Next photo">›</button>
+          <button class="lb-btn" id="closeBtn" aria-label="Close">✕</button>
         </div>
       </div>
-
-      <div class="lb-nav lb-prev" id="lbPrev" title="Previous">‹</div>
-      <div class="lb-nav lb-next" id="lbNext" title="Next">›</div>
     </div>
   </div>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ACTIVE NAV HIGHLIGHT
+    /* ---------- ACTIVE NAV HIGHLIGHT ---------- */
     const navHeight = 72;
     const links = [...document.querySelectorAll(".navlink")];
     const sectionIds = ["home","journey","rides","gallery","contact"];
@@ -894,7 +1003,7 @@
       const atBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 2);
       if(atBottom){ setActive("contact"); return; }
 
-      const y = window.scrollY + navHeight + 10;
+      const y = window.scrollY + navHeight + 14;
       let current = "home";
       for(const sec of sections){
         if(sec.offsetTop <= y) current = sec.id;
@@ -904,7 +1013,7 @@
     window.addEventListener("scroll", updateActive, { passive:true });
     window.addEventListener("load", updateActive);
 
-    // SCROLL REVEAL
+    /* ---------- SCROLL REVEAL ---------- */
     const revealEls = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -913,99 +1022,104 @@
     }, { threshold: 0.12 });
     revealEls.forEach(el => obs.observe(el));
 
-    // HERO PARALLAX (subtle)
+    /* ---------- HERO PARALLAX ---------- */
     const home = document.getElementById("home");
     let ticking = false;
     function onScroll(){
       if(ticking) return;
       ticking = true;
+
       requestAnimationFrame(() => {
         const y = window.scrollY;
         const h = home.offsetHeight;
         const withinHero = Math.min(Math.max(y / h, 0), 1);
-        const pos = 50 + withinHero * 8;
+        const pos = 50 + withinHero * 10;
         home.style.setProperty("--heroY", pos + "%");
         ticking = false;
       });
     }
     window.addEventListener("scroll", onScroll, { passive:true });
 
-    // TOAST helper
-    const toast = document.getElementById("toast");
-    let toastTimer = null;
-    function showToast(message){
-      toast.innerHTML = message;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+    /* ---------- PREMIUM TILT ---------- */
+    const tiltEls = document.querySelectorAll(".tilt-card");
+    const supportsHover = matchMedia("(hover:hover) and (pointer:fine)").matches;
+
+    function setVars(el, xPct, yPct){
+      el.style.setProperty("--mx", xPct + "%");
+      el.style.setProperty("--my", yPct + "%");
     }
 
-    // FORM UX (success / loading) - still uses Netlify backend
-    const form = document.querySelector('form[name="contact"]');
-    const sendBtn = document.getElementById("sendBtn");
+    function applyTilt(el, e){
+      const rect = el.getBoundingClientRect();
+      const mx = ((e.clientX - rect.left) / rect.width) * 100;
+      const my = ((e.clientY - rect.top) / rect.height) * 100;
+      setVars(el, mx, my);
 
-    form.addEventListener("submit", () => {
-      // show instant feedback (Netlify will still submit normally)
-      sendBtn.textContent = "Sending...";
-      sendBtn.style.pointerEvents = "none";
-      sendBtn.style.filter = "brightness(0.95)";
-      showToast("<strong>Sending…</strong> please wait.");
+      const dx = (e.clientX - (rect.left + rect.width/2)) / (rect.width/2);
+      const dy = (e.clientY - (rect.top + rect.height/2)) / (rect.height/2);
+      const max = 8;
 
-      // When Netlify finishes, it usually reloads or redirects.
-      // If it stays same page, we reset after a short time:
-      setTimeout(() => {
-        sendBtn.textContent = "Send Message";
-        sendBtn.style.pointerEvents = "";
-        sendBtn.style.filter = "";
-        showToast("<strong>Sent!</strong> Your message was delivered.");
-      }, 1200);
-    });
+      el.style.transform = `translateY(-6px) rotateX(${(-dy*max).toFixed(2)}deg) rotateY(${(dx*max).toFixed(2)}deg)`;
+    }
 
-    // LIGHTBOX (gallery click -> big view)
-    const galleryImgs = [...document.querySelectorAll(".gallery img")];
+    function resetTilt(el){
+      el.style.transform = "";
+      setVars(el, 50, 50);
+    }
+
+    if(supportsHover){
+      tiltEls.forEach(el => {
+        setVars(el, 50, 50);
+        el.addEventListener("mousemove", (e) => applyTilt(el, e));
+        el.addEventListener("mouseleave", () => resetTilt(el));
+      });
+    }
+
+    /* ---------- GALLERY LIGHTBOX + SWIPE ---------- */
     const lightbox = document.getElementById("lightbox");
-    const lbImg = document.getElementById("lbImg");
-    const lbChip = document.getElementById("lbChip");
-    const lbClose = document.getElementById("lbClose");
-    const lbPrev = document.getElementById("lbPrev");
-    const lbNext = document.getElementById("lbNext");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxTitle = document.getElementById("lightboxTitle");
+    const closeBtn = document.getElementById("closeBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
 
+    const galleryItems = [...document.querySelectorAll(".g-item img")];
     let currentIndex = 0;
 
-    function openLightbox(i){
-      currentIndex = i;
-      const img = galleryImgs[currentIndex];
-      lbImg.src = img.src;
-      lbImg.alt = img.alt || "Photo";
-      lbChip.textContent = (currentIndex + 1) + " / " + galleryImgs.length;
+    function openLightbox(index){
+      currentIndex = index;
+      const img = galleryItems[currentIndex];
+      const cap = img.closest(".g-item")?.dataset?.caption || img.alt || "Photo";
+      lightboxImg.src = img.src;
+      lightboxTitle.textContent = cap;
+
       lightbox.classList.add("show");
-      lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
     function closeLightbox(){
       lightbox.classList.remove("show");
-      lightbox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      lightboxImg.src = "";
     }
 
     function showPrev(){
-      currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
+      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
       openLightbox(currentIndex);
     }
     function showNext(){
-      currentIndex = (currentIndex + 1) % galleryImgs.length;
+      currentIndex = (currentIndex + 1) % galleryItems.length;
       openLightbox(currentIndex);
     }
 
-    galleryImgs.forEach((img, i) => {
-      img.style.cursor = "pointer";
+    galleryItems.forEach((img, i) => {
       img.addEventListener("click", () => openLightbox(i));
+      img.style.cursor = "pointer";
     });
 
-    lbClose.addEventListener("click", closeLightbox);
-    lbPrev.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
-    lbNext.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
+    closeBtn.addEventListener("click", closeLightbox);
+    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
+    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
 
     lightbox.addEventListener("click", (e) => {
       if(e.target === lightbox) closeLightbox();
@@ -1018,20 +1132,18 @@
       if(e.key === "ArrowRight") showNext();
     });
 
-    // Swipe on mobile
-    let touchStartX = null;
-    lightbox.addEventListener("touchstart", (e) => {
-      touchStartX = e.changedTouches[0].clientX;
-    }, { passive:true });
+    let touchX = 0;
+    lightboxImg.addEventListener("touchstart", (e) => {
+      touchX = e.touches[0].clientX;
+    }, {passive:true});
 
-    lightbox.addEventListener("touchend", (e) => {
-      if(touchStartX === null) return;
+    lightboxImg.addEventListener("touchend", (e) => {
       const endX = e.changedTouches[0].clientX;
-      const diff = endX - touchStartX;
-      touchStartX = null;
-      if(Math.abs(diff) < 40) return;
-      if(diff > 0) showPrev(); else showNext();
-    }, { passive:true });
+      const diff = endX - touchX;
+      if(Math.abs(diff) > 45){
+        if(diff > 0) showPrev(); else showNext();
+      }
+    }, {passive:true});
   </script>
 </body>
 </html>
