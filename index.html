@@ -5,6 +5,17 @@
   <title>Gala Ni Makoy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- SEO + Social Preview -->
+  <meta name="description" content="Gala ni Makoy — cinematic motorcycle rides through scenic roads, nature routes, and real travel moments." />
+  <meta property="og:title" content="Gala ni Makoy" />
+  <meta property="og:description" content="Cinematic motor journeys through nature, roads, and freedom." />
+  <meta property="og:image" content="assets/images/hero.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Optional favicon (add file later) -->
+  <!-- <link rel="icon" href="assets/images/favicon.png" type="image/png"> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -144,7 +155,6 @@
     }
     .navlink:hover::after{ opacity:1; transform:scaleX(1); }
 
-    /* premium subtle sheen on nav items */
     .navlink::before{
       content:"";
       position:absolute;
@@ -233,6 +243,140 @@
       z-index:1;
     }
 
+    /* MOBILE MENU */
+    .burger{
+      display:none;
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      cursor:pointer;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
+      position:relative;
+      overflow:hidden;
+      align-items:center;
+      justify-content:center;
+    }
+    .burger:hover{
+      transform: translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.20);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.35);
+    }
+    .burger-lines{
+      width:18px;
+      height:12px;
+      position:relative;
+    }
+    .burger-lines span{
+      position:absolute;
+      left:0; right:0;
+      height:2px;
+      border-radius:999px;
+      background:rgba(234,234,234,0.92);
+      transition: transform 220ms var(--easeSoft), top 220ms var(--easeSoft), opacity 220ms var(--easeSoft);
+    }
+    .burger-lines span:nth-child(1){ top:0; }
+    .burger-lines span:nth-child(2){ top:5px; }
+    .burger-lines span:nth-child(3){ top:10px; }
+
+    .menu-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+      z-index:2500;
+      display:none;
+      opacity:0;
+      transition: opacity 220ms var(--easeSoft);
+    }
+    .menu-overlay.show{
+      display:block;
+      opacity:1;
+    }
+    .menu-drawer{
+      position:fixed;
+      top:0;
+      right:0;
+      height:100%;
+      width:min(360px, 88vw);
+      background:linear-gradient(180deg, rgba(11,15,20,0.96), rgba(11,15,20,0.90));
+      border-left:1px solid rgba(255,255,255,0.08);
+      z-index:2600;
+      transform: translateX(100%);
+      transition: transform 260ms var(--easeOut);
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .menu-drawer.show{ transform: translateX(0); }
+    .drawer-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:10px;
+      border-bottom:1px solid rgba(255,255,255,0.08);
+    }
+    .drawer-brand{
+      font-family:Cinzel, serif;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-weight:700;
+      font-size:14px;
+      opacity:.96;
+    }
+    .drawer-close{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      color:rgba(234,234,234,0.92);
+      cursor:pointer;
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft);
+    }
+    .drawer-close:hover{
+      transform: translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.20);
+    }
+
+    .drawer-links{
+      display:grid;
+      gap:10px;
+      padding-top:6px;
+    }
+    .drawer-links a{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 12px;
+      border-radius:16px;
+      text-decoration:none;
+      color:rgba(234,234,234,0.92);
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.08);
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft);
+    }
+    .drawer-links a:hover{
+      transform: translateY(-2px);
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(201,162,77,0.18);
+    }
+    .drawer-links .badge{
+      margin-left:auto;
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      border:1px solid rgba(201,162,77,0.26);
+      color:rgba(234,234,234,0.84);
+      background:rgba(201,162,77,0.08);
+    }
+
     /* HERO */
     #home{
       min-height:100vh;
@@ -253,12 +397,7 @@
       pointer-events:none;
       z-index:0;
     }
-   #home::after{ content:none; }
-
-    @keyframes slowFloat{
-      from{ transform:translate(-50%,-50%) scale(1); opacity:.9; }
-      to{ transform:translate(-50%,-50%) scale(1.06); opacity:.75; }
-    }
+    #home::after{ content:none; }
 
     .hero-grid{
       position:relative;
@@ -280,7 +419,7 @@
       margin-bottom:10px;
     }
     .hero-kicker i{display:none}
-      
+
     .hero-title{
       font-family:Cinzel, serif;
       font-weight:700;
@@ -349,6 +488,8 @@
       transition: transform 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft), filter 180ms var(--easeSoft);
       white-space:nowrap;
       will-change: transform;
+      border:none;
+      cursor:pointer;
     }
     .btn-gold::before{
       content:"";
@@ -404,8 +545,6 @@
       transform: perspective(1200px) translateY(-8px) rotateX(3deg) translateZ(8px);
       box-shadow: 0 48px 120px rgba(2,6,10,0.72), var(--glow);
     }
-
-    /* sheen sweep on hero card */
     .hero-card::after{
       content:"";
       position:absolute;
@@ -491,6 +630,12 @@
       gap:16px;
       margin-top:16px;
     }
+    .grid-3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:16px;
+      margin-top:16px;
+    }
 
     /* premium card */
     .card{
@@ -545,6 +690,79 @@
     }
     .card h3{ margin:0 0 10px 0; font-size:16px; }
     .card p{ margin:0; color:rgba(234,234,234,0.72); line-height:1.7; font-size:14px; }
+
+    /* Ride logs */
+    .ride-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:10px 0 12px;
+    }
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(255,255,255,0.04);
+      color:rgba(234,234,234,0.86);
+    }
+    .pill.gold{
+      border:1px solid rgba(201,162,77,0.24);
+      background:rgba(201,162,77,0.10);
+    }
+    .ride-actions{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn-small, .btn-small:visited{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:14px;
+      text-decoration:none;
+      font-weight:700;
+      letter-spacing:0.2px;
+      color:rgba(234,234,234,0.92);
+      background:rgba(255,255,255,0.045);
+      border:1px solid rgba(255,255,255,0.10);
+      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft);
+      white-space:nowrap;
+    }
+    .btn-small:hover{
+      transform: translateY(-3px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.18);
+    }
+
+    /* YouTube embed */
+    .video-wrap{
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.10);
+      background:rgba(0,0,0,0.25);
+      box-shadow: 0 30px 110px rgba(0,0,0,0.55);
+    }
+    .video-16x9{
+      position:relative;
+      width:100%;
+      padding-top:56.25%;
+    }
+    .video-16x9 iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    .video-note{
+      margin-top:14px;
+      color:rgba(234,234,234,0.72);
+      font-size:13px;
+      line-height:1.6;
+    }
 
     /* CONTACT FORM inputs */
     .f-input, .f-textarea{
@@ -789,28 +1007,36 @@
     .social-icon:hover::after{ opacity:1; }
 
     .social-icon svg{ width:20px; height:20px; fill:#0B0F14; position:relative; z-index:1; }
-
     .social-icon.fb{ background:#1877F2; }
     .social-icon.yt{ background:#FF0000; }
     .social-icon.tt{ background:#111111; border:1px solid rgba(255,255,255,0.12); }
     .social-icon.tt svg{ fill:#EAEAEA; }
 
     /* responsive */
+    @media (max-width: 1060px){
+      .grid-3{ grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 980px){
       .hero-grid{ grid-template-columns: 1fr; }
       .hero-title{ font-size:44px; }
       .gallery{ grid-template-columns: 1fr 1fr; }
       .socials{ border-left:none; padding-left:0; }
     }
+    @media (max-width: 760px){
+      .section-head{ flex-direction:column; align-items:flex-start; }
+    }
     @media (max-width: 640px){
-      nav{ height:auto; padding:10px 0; }
-      .nav-inner{ flex-direction:column; gap:10px; }
-      .nav-right{ justify-content:center; }
+      nav{ height:72px; }
+      .nav-inner{ flex-direction:row; gap:10px; }
+      .nav-right{ justify-content:flex-end; }
+      .nav-links{ display:none; }
+      .socials{ display:none; }
+      .burger{ display:inline-flex; }
       #home{ padding:120px 0 60px; }
       .hero-title{ font-size:36px; }
       .grid-2{ grid-template-columns: 1fr; }
+      .grid-3{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr; }
-      .nav-links{ flex-wrap:wrap; justify-content:center; }
     }
   </style>
 </head>
@@ -821,10 +1047,12 @@
       <div class="brand">GALA NI MAKOY</div>
 
       <div class="nav-right">
-        <div class="nav-links">
+        <!-- Desktop nav -->
+        <div class="nav-links" aria-label="Primary navigation">
           <a class="navlink" href="#home"><span class="dot"></span>Home</a>
           <a class="navlink" href="#journey"><span class="dot"></span>Journey</a>
           <a class="navlink" href="#rides"><span class="dot"></span>Rides</a>
+          <a class="navlink" href="#videos"><span class="dot"></span>Videos</a>
           <a class="navlink" href="#gallery"><span class="dot"></span>Gallery</a>
           <a class="navlink" href="#contact"><span class="dot"></span>Contact</a>
         </div>
@@ -835,20 +1063,68 @@
               <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
+          <!-- Replace with your real channel URL -->
           <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
           </a>
+          <!-- Replace with your real TikTok profile -->
           <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
             </svg>
           </a>
         </div>
+
+        <!-- Mobile burger -->
+        <button class="burger" id="burger" aria-label="Open menu" aria-controls="menuDrawer" aria-expanded="false">
+          <div class="burger-lines" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </button>
       </div>
     </div>
   </nav>
+
+  <!-- Mobile menu overlay + drawer -->
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
+  <aside class="menu-drawer" id="menuDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="drawer-brand">GALA NI MAKOY</div>
+      <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="drawer-links">
+      <a href="#home" class="drawer-link">Home <span class="badge">Start</span></a>
+      <a href="#journey" class="drawer-link">Journey</a>
+      <a href="#rides" class="drawer-link">Rides</a>
+      <a href="#videos" class="drawer-link">Videos</a>
+      <a href="#gallery" class="drawer-link">Gallery</a>
+      <a href="#contact" class="drawer-link">Contact</a>
+    </div>
+
+    <div style="margin-top:auto; display:grid; gap:10px;">
+      <a class="btn-ghost" href="#contact" style="justify-content:center;">Collaborate</a>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="icon-btn" href="https://www.facebook.com/profile.php?id=61587711260477" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
+          </svg>
+        </a>
+        <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
+          </svg>
+        </a>
+        <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </aside>
 
   <section id="home">
     <div class="container hero-grid reveal show">
@@ -861,6 +1137,7 @@
 
         <div class="hero-actions">
           <a class="btn-gold" href="#journey">Follow the Journey</a>
+          <a class="btn-ghost" href="#videos">Watch Latest</a>
           <a class="btn-ghost" href="#contact">Collaborate</a>
         </div>
       </div>
@@ -886,78 +1163,166 @@
       <div class="grid-2">
         <div class="card tilt-card">
           <h3>Who is Makoy?</h3>
-          <p>A rider driven by the love of open roads, changing landscapes, and the quiet freedom that comes with every journey. Passionate about exploring nature, discovering new places, and documenting real, unfiltered experiences along the way. Each ride is more than just travel—it’s a story, a moment, and a connection between the road, the environment, and the rider behind the handlebars</p>
+          <p>
+            A rider driven by the love of open roads, changing landscapes, and the quiet freedom that comes with every journey.
+            Passionate about exploring nature, discovering new places, and documenting real, unfiltered experiences along the way.
+            Each ride is more than just travel—it’s a story, a moment, and a connection between the road, the environment, and the rider behind the handlebars.
+          </p>
         </div>
         <div class="card tilt-card">
           <h3>What to expect</h3>
-          <p>Detailed ride logs from real journeys, scenic stops worth slowing down for, and carefully chosen route recommendations for fellow riders. Expect cinematic travel moments captured on the road, honest reflections from each trip, and practical insights that blend adventure, nature, and the raw experience of riding through different places.</p>
+          <p>
+            Detailed ride logs from real journeys, scenic stops worth slowing down for, and carefully chosen route recommendations for fellow riders.
+            Expect cinematic travel moments captured on the road, honest reflections from each trip, and practical insights that blend adventure, nature, and the raw experience of riding through different places.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ✅ UPGRADED: Ride Logs (professional cards you can keep adding) -->
   <section id="rides" class="section alt">
     <div class="container reveal">
       <div class="section-head">
         <h2>Rides</h2>
-        <p class="hint">Showcase routes like episodes. Each ride has a highlight + location.</p>
+        <p class="hint">Episodes on the road — each ride has a location, vibe, and quick highlights.</p>
       </div>
 
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="card tilt-card">
-          <h3>Featured Route</h3>
-          <p>Mountain twisties • sunrise ride • quick stops • scenic points.</p>
+          <h3>Sunrise Mountain Twisties</h3>
+          <div class="ride-meta">
+            <span class="pill gold">Featured</span>
+            <span class="pill">Sunrise</span>
+            <span class="pill">Twisties</span>
+            <span class="pill">Cool weather</span>
+          </div>
+          <p>
+            Early start, clean curves, and a quiet climb. Best for riders who enjoy long turns and scenic pullovers.
+          </p>
+          <div class="ride-actions">
+            <a class="btn-small" href="#gallery">View Photos</a>
+            <a class="btn-small" href="https://maps.google.com/" target="_blank" rel="noopener">Open Map</a>
+          </div>
         </div>
+
         <div class="card tilt-card">
-          <h3>Next Destination</h3>
-          <p>Coastal road • night ride • long highway cruise • local food stop.</p>
+          <h3>Coastal Night Cruise</h3>
+          <div class="ride-meta">
+            <span class="pill">Night</span>
+            <span class="pill">Coastal</span>
+            <span class="pill">Long highway</span>
+          </div>
+          <p>
+            City lights to sea breeze—smooth pacing, calm stops, and a late snack run by the coast.
+          </p>
+          <div class="ride-actions">
+            <a class="btn-small" href="#videos">Watch Clips</a>
+            <a class="btn-small" href="https://maps.google.com/" target="_blank" rel="noopener">Open Map</a>
+          </div>
+        </div>
+
+        <div class="card tilt-card">
+          <h3>River View Loop</h3>
+          <div class="ride-meta">
+            <span class="pill">Nature</span>
+            <span class="pill">Short loop</span>
+            <span class="pill">Stops</span>
+          </div>
+          <p>
+            A relaxed loop for photos and breathing time. Great for chill rides and content shoots.
+          </p>
+          <div class="ride-actions">
+            <a class="btn-small" href="#contact">Ride Invite</a>
+            <a class="btn-small" href="#gallery">View Photos</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="gallery" class="section">
+  <!-- ✅ NEW: Latest Video (YouTube embed) -->
+  <section id="videos" class="section">
+    <div class="container reveal">
+      <div class="section-head">
+        <h2>Latest Video</h2>
+        <p class="hint">A full cinematic watch — switch this anytime to your newest upload.</p>
+      </div>
+
+      <div class="grid-2" style="align-items:start;">
+        <div class="video-wrap tilt-card">
+          <div class="video-16x9">
+            <!-- Replace VIDEO_ID with your real YouTube video id -->
+            <iframe
+              src="https://www.youtube.com/embed/m0FYJ3s67hg"
+              title="Gala ni Makoy - Latest Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <div class="card tilt-card">
+          <h3>Watch • Subscribe • Ride Along</h3>
+          <p>
+            Watch my Journey unfold in cinematic rides, nature stops, and real moments on the road. Subscribe for the latest episodes and behind-the-scenes content from every ride. Your support fuels the journey and helps me share more of these experiences with you.
+          </p>
+          <p class="video-note">
+            (P.S. If you have a brand or product that fits the vibe, I’m open to sponsorships and collaborations that align with the spirit of the rides and the community we’re building.)
+          </p>
+          <div class="hero-actions" style="margin-top:14px;">
+            <!-- Replace with your real channel -->
+            <a class="btn-gold" href="https://www.youtube.com/" target="_blank" rel="noopener">Visit YouTube</a>
+            <a class="btn-ghost" href="#contact">Sponsor Inquiry</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ FIXED: Gallery section (proper closing tags) + 6 images hero → hero5 -->
+  <section id="gallery" class="section alt">
     <div class="container reveal">
       <div class="section-head">
         <h2>Photos</h2>
         <p class="hint">Tap a photo to open it in full cinematic view.</p>
       </div>
 
-     <div class="gallery">
-  <div class="g-item tilt-card" data-caption="Golden Hour Ride">
-    <img src="assets/images/hero.jpg" alt="Ride 1">
-    <div class="g-cap">Golden Hour Ride</div>
-  </div>
+      <div class="gallery">
+        <div class="g-item tilt-card" data-caption="Golden Hour Ride">
+          <img src="assets/images/hero.jpg" alt="Ride 1">
+          <div class="g-cap">Golden Hour Ride</div>
+        </div>
 
-  <div class="g-item tilt-card" data-caption="Sea Side">
-    <img src="assets/images/hero1.jpg" alt="Ride 2">
-    <div class="g-cap">Sea Side</div>
-  </div>
+        <div class="g-item tilt-card" data-caption="Sea Side">
+          <img src="assets/images/hero1.jpg" alt="Ride 2">
+          <div class="g-cap">Sea Side</div>
+        </div>
 
-  <div class="g-item tilt-card" data-caption="Nature Stops">
-    <img src="assets/images/hero2.jpg" alt="Ride 3">
-    <div class="g-cap">Nature Stops</div>
-  </div>
+        <div class="g-item tilt-card" data-caption="Nature Stops">
+          <img src="assets/images/hero2.jpg" alt="Ride 3">
+          <div class="g-cap">Nature Stops</div>
+        </div>
 
-  <div class="g-item tilt-card" data-caption="Lovely River">
-    <img src="assets/images/hero3.jpg" alt="Ride 4">
-    <div class="g-cap">Lovely River</div>
-  </div>
+        <div class="g-item tilt-card" data-caption="Lovely River">
+          <img src="assets/images/hero3.jpg" alt="Ride 4">
+          <div class="g-cap">Lovely River</div>
+        </div>
 
-  <div class="g-item tilt-card" data-caption="Over View">
-    <img src="assets/images/hero4.jpg" alt="Ride 5">
-    <div class="g-cap">Over View</div>
-  </div>
+        <div class="g-item tilt-card" data-caption="Over View">
+          <img src="assets/images/hero4.jpg" alt="Ride 5">
+          <div class="g-cap">Over View</div>
+        </div>
 
-  <div class="g-item tilt-card" data-caption="Good Spot">
-    <img src="assets/images/hero5.png" alt="Ride 6">
-    <div class="g-cap">Good Spot</div>
-  </div>
-</div>
-
+        <div class="g-item tilt-card" data-caption="Good Spot">
+          <img src="assets/images/hero5.png" alt="Ride 6">
+          <div class="g-cap">Good Spot</div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="contact" class="section alt">
+  <section id="contact" class="section">
     <div class="container reveal">
       <div class="section-head">
         <h2>Contact</h2>
@@ -970,7 +1335,6 @@
           <h3>Send a message</h3>
           <p style="margin-bottom:14px;">For collaborations, sponsors, or ride invites.</p>
 
-          <!-- Netlify Forms -->
           <form name="contact" method="POST" data-netlify="true">
             <input type="hidden" name="form-name" value="contact" />
 
@@ -979,9 +1343,7 @@
               <input class="f-input" type="email" name="email" required placeholder="Your email" />
               <textarea class="f-textarea" name="message" required placeholder="Your message" rows="5"></textarea>
 
-              <button class="btn-gold" type="submit" style="border:none; cursor:pointer;">
-                Send Message
-              </button>
+              <button class="btn-gold" type="submit">Send Message</button>
             </div>
           </form>
         </div>
@@ -1010,6 +1372,10 @@
               </svg>
             </a>
           </div>
+
+          <p style="margin-top:14px; color:rgba(234,234,234,0.72); font-size:13px; line-height:1.6;">
+            Want the links to look more professional? Replace the YouTube/TikTok homepage URLs with your exact profile links.
+          </p>
         </div>
       </div>
     </div>
@@ -1042,8 +1408,8 @@
     /* ---------- ACTIVE NAV HIGHLIGHT ---------- */
     const navHeight = 72;
     const links = [...document.querySelectorAll(".navlink")];
-    const sectionIds = ["home","journey","rides","gallery","contact"];
-    const sections = sectionIds.map(id => document.getElementById(id));
+    const sectionIds = ["home","journey","rides","videos","gallery","contact"];
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
 
     function setActive(id){
       links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + id));
@@ -1081,7 +1447,7 @@
 
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        const h = home.offsetHeight;
+        const h = home.offsetHeight || 1;
         const withinHero = Math.min(Math.max(y / h, 0), 1);
         const pos = 50 + withinHero * 10;
         home.style.setProperty("--heroY", pos + "%");
@@ -1176,10 +1542,11 @@
     });
 
     window.addEventListener("keydown", (e) => {
-      if(!lightbox.classList.contains("show")) return;
-      if(e.key === "Escape") closeLightbox();
-      if(e.key === "ArrowLeft") showPrev();
-      if(e.key === "ArrowRight") showNext();
+      if(lightbox.classList.contains("show")){
+        if(e.key === "Escape") closeLightbox();
+        if(e.key === "ArrowLeft") showPrev();
+        if(e.key === "ArrowRight") showNext();
+      }
     });
 
     let touchX = 0;
@@ -1194,6 +1561,46 @@
         if(diff > 0) showPrev(); else showNext();
       }
     }, {passive:true});
+
+    /* ---------- MOBILE MENU ---------- */
+    const burger = document.getElementById("burger");
+    const menuOverlay = document.getElementById("menuOverlay");
+    const menuDrawer = document.getElementById("menuDrawer");
+    const drawerClose = document.getElementById("drawerClose");
+    const drawerLinks = [...document.querySelectorAll(".drawer-link")];
+
+    function openMenu(){
+      menuOverlay.classList.add("show");
+      menuDrawer.classList.add("show");
+      burger.setAttribute("aria-expanded", "true");
+      menuOverlay.setAttribute("aria-hidden", "false");
+      menuDrawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMenu(){
+      menuOverlay.classList.remove("show");
+      menuDrawer.classList.remove("show");
+      burger.setAttribute("aria-expanded", "false");
+      menuOverlay.setAttribute("aria-hidden", "true");
+      menuDrawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    burger.addEventListener("click", () => {
+      const isOpen = burger.getAttribute("aria-expanded") === "true";
+      if(isOpen) closeMenu(); else openMenu();
+    });
+
+    drawerClose.addEventListener("click", closeMenu);
+    menuOverlay.addEventListener("click", closeMenu);
+
+    drawerLinks.forEach(a => a.addEventListener("click", closeMenu));
+
+    window.addEventListener("keydown", (e) => {
+      const isOpen = burger.getAttribute("aria-expanded") === "true";
+      if(isOpen && e.key === "Escape") closeMenu();
+    });
   </script>
 </body>
 </html>
