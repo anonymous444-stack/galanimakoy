@@ -140,9 +140,24 @@
       background:linear-gradient(90deg, transparent, var(--gold), transparent);
       opacity:0;
       transform:scaleX(0.6);
-      transition: opacity 180ms var(--easeSoft), transform 180ms var(--easeSoft);
+      transition: opacity 180ms var(--easeSoft), transform 180ms var(--easeSoft), filter 220ms var(--easeSoft);
     }
     .navlink:hover::after{ opacity:1; transform:scaleX(1); }
+
+    /* premium subtle sheen on nav items */
+    .navlink::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0; bottom:0;
+      background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03));
+      transform:translateY(-8px) skewX(-6deg) scaleX(0.9);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 260ms var(--easeSoft), transform 260ms var(--easeSoft);
+      border-radius:12px;
+      mix-blend-mode:overlay;
+    }
+    .navlink:hover::before{ opacity:1; transform:translateY(0) skewX(0) scaleX(1); }
 
     .navlink.active{
       opacity:1;
@@ -187,9 +202,9 @@
       align-items:center;
       justify-content:center;
       border-radius:12px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.10);
-      transition: transform 180ms var(--easeSoft), background 180ms var(--easeSoft), border 180ms var(--easeSoft), box-shadow 180ms var(--easeSoft);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.06);
+      transition: transform 200ms var(--easeSoft), box-shadow 200ms var(--easeSoft), background 200ms var(--easeSoft);
       text-decoration:none;
       will-change: transform;
       position:relative;
@@ -198,19 +213,18 @@
     .icon-btn::after{
       content:"";
       position:absolute;
-      inset:-1px;
-      background: radial-gradient(220px 110px at 20% 20%, rgba(201,162,77,0.18), transparent 55%);
+      inset:0;
+      border-radius:inherit;
+      box-shadow: inset 0 0 0 1px rgba(212,175,55,0.06);
       opacity:0;
-      transition: opacity 180ms var(--easeSoft);
+      transition: opacity 200ms var(--easeSoft), transform 300ms var(--easeSoft);
       pointer-events:none;
     }
     .icon-btn:hover{
-      transform:translateY(-2px) scale(1.04);
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(201,162,77,0.22);
-      box-shadow: 0 14px 40px rgba(0,0,0,0.35);
+      transform:translateY(-4px) scale(1.06);
+      box-shadow: 0 12px 36px rgba(212,175,55,0.06);
     }
-    .icon-btn:hover::after{ opacity:1; }
+    .icon-btn:hover::after{ opacity:1; transform: scale(1.01); }
     .icon{
       width:18px;
       height:18px;
@@ -312,10 +326,10 @@
       overflow:hidden;
     }
     .btn-ghost:hover{
-      transform: translateY(-3px);
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(201,162,77,0.22);
-      box-shadow: 0 18px 48px rgba(0,0,0,0.25);
+      transform: translateY(-4px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border:1px solid rgba(212,175,55,0.12);
+      box-shadow: 0 20px 56px rgba(2,6,10,0.5), 0 6px 24px rgba(212,175,55,0.04);
     }
 
     .btn-gold, .btn-gold:visited{
@@ -372,6 +386,7 @@
       box-shadow: var(--shadow);
       padding:18px;
       transform-style:preserve-3d;
+      transition: transform 420ms var(--easeOut), box-shadow 420ms var(--easeOut);
     }
     .hero-card::before{
       content:"";
@@ -385,6 +400,24 @@
       pointer-events:none;
     }
     .hero-card:hover::before{ opacity:1; }
+    .hero-card:hover{
+      transform: perspective(1200px) translateY(-8px) rotateX(3deg) translateZ(8px);
+      box-shadow: 0 48px 120px rgba(2,6,10,0.72), var(--glow);
+    }
+
+    /* sheen sweep on hero card */
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      top:-20%; left:-40%;
+      width:40%; height:140%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.06), transparent);
+      transform: rotate(18deg);
+      opacity:0;
+      transition: opacity 420ms var(--easeSoft), left 620ms var(--easeOut);
+      pointer-events:none;
+    }
+    .hero-card:hover::after{ opacity:1; left:120%; }
 
     .mini{
       font-size:12px;
