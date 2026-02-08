@@ -1012,6 +1012,65 @@
     .social-icon.tt{ background:#111111; border:1px solid rgba(255,255,255,0.12); }
     .social-icon.tt svg{ fill:#EAEAEA; }
 
+    /* ✅ PRO CONTACT LINES (Phone + Email) */
+    .contact-lines{
+      margin-top:16px;
+      display:grid;
+      gap:10px;
+    }
+    .contact-line{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      text-decoration:none;
+      color:rgba(234,234,234,0.92);
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      transition: transform 180ms var(--easeSoft),
+                  background 180ms var(--easeSoft),
+                  border 180ms var(--easeSoft),
+                  box-shadow 180ms var(--easeSoft);
+    }
+    .contact-line:hover{
+      transform: translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.22);
+      box-shadow: 0 16px 44px rgba(0,0,0,0.35);
+    }
+    .contact-icon{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.10);
+      flex:0 0 40px;
+    }
+    .contact-icon svg{
+      width:18px;
+      height:18px;
+      fill:#0B0F14;
+    }
+    .contact-icon.phone{
+      background:#1DB954;
+      border:1px solid rgba(29,185,84,0.35);
+    }
+    .contact-icon.mail{
+      background:#EA4335;
+      border:1px solid rgba(234,67,53,0.35);
+    }
+    .contact-text{
+      font-size:14px;
+      letter-spacing:0.2px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
     /* responsive */
     @media (max-width: 1060px){
       .grid-3{ grid-template-columns: 1fr 1fr; }
@@ -1037,6 +1096,7 @@
       .grid-2{ grid-template-columns: 1fr; }
       .grid-3{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr; }
+      .contact-text{ font-size:13px; }
     }
   </style>
 </head>
@@ -1063,13 +1123,11 @@
               <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
-          <!-- Replace with your real channel URL -->
           <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
           </a>
-          <!-- Replace with your real TikTok profile -->
           <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
@@ -1180,7 +1238,6 @@
     </div>
   </section>
 
-  <!-- ✅ UPGRADED: Ride Logs (professional cards you can keep adding) -->
   <section id="rides" class="section alt">
     <div class="container reveal">
       <div class="section-head">
@@ -1241,7 +1298,6 @@
     </div>
   </section>
 
-  <!-- ✅ NEW: Latest Video (YouTube embed) -->
   <section id="videos" class="section">
     <div class="container reveal">
       <div class="section-head">
@@ -1252,10 +1308,11 @@
       <div class="grid-2" style="align-items:start;">
         <div class="video-wrap tilt-card">
           <div class="video-16x9">
-            <!-- Replace VIDEO_ID with your real YouTube video id -->
             <iframe
-              src="https://www.youtube.com/embed/m0FYJ3s67hg"
+              src="https://www.youtube-nocookie.com/embed/m0FYJ3s67hg?rel=0"
               title="Gala ni Makoy - Latest Video"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
@@ -1271,7 +1328,6 @@
             (P.S. If you have a brand or product that fits the vibe, I’m open to sponsorships and collaborations that align with the spirit of the rides and the community we’re building.)
           </p>
           <div class="hero-actions" style="margin-top:14px;">
-            <!-- Replace with your real channel -->
             <a class="btn-gold" href="https://www.youtube.com/" target="_blank" rel="noopener">Visit YouTube</a>
             <a class="btn-ghost" href="#contact">Sponsor Inquiry</a>
           </div>
@@ -1280,7 +1336,6 @@
     </div>
   </section>
 
-  <!-- ✅ FIXED: Gallery section (proper closing tags) + 6 images hero → hero5 -->
   <section id="gallery" class="section alt">
     <div class="container reveal">
       <div class="section-head">
@@ -1330,12 +1385,11 @@
       </div>
 
       <div class="grid-2">
-        <!-- CONTACT FORM (Netlify Forms) -->
         <div class="card tilt-card">
           <h3>Send a message</h3>
           <p style="margin-bottom:14px;">For collaborations, sponsors, or ride invites.</p>
 
-          <form name="contact" method="POST" data-netlify="true">
+          <form name="contact" method="POST" data-netlify="true" netlify>
             <input type="hidden" name="form-name" value="contact" />
 
             <div style="display:grid; gap:10px;">
@@ -1348,7 +1402,6 @@
           </form>
         </div>
 
-        <!-- SOCIALS -->
         <div class="card tilt-card">
           <h3>Socials</h3>
           <p>Follow the journey on Facebook, YouTube, and TikTok.</p>
@@ -1373,9 +1426,26 @@
             </a>
           </div>
 
-          <p style="margin-top:14px; color:rgba(234,234,234,0.72); font-size:13px; line-height:1.6;">
-            Want the links to look more professional? Replace the YouTube/TikTok homepage URLs with your exact profile links.
-          </p>
+          <!-- ✅ PRO CONTACT (clickable phone + email) -->
+          <div class="contact-lines">
+            <a class="contact-line" href="tel:+639760098609" aria-label="Call 0976 009 8609">
+              <span class="contact-icon phone" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M6.6 10.8c1.5 3 3.6 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.9.6.6 0 1 .4 1 1V21c0 .6-.4 1-1 1C11.4 22 2 12.6 2 1c0-.6.4-1 1-1h3.9c.6 0 1 .4 1 1 0 1.4.2 2.7.6 3.9.1.4 0 .8-.3 1.1L6.6 10.8z"/>
+                </svg>
+              </span>
+              <span class="contact-text">0976 009 8609</span>
+            </a>
+
+            <a class="contact-line" href="mailto:galanimakoy@gmail.com" aria-label="Email galanimakoy@gmail.com">
+              <span class="contact-icon mail" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+              </span>
+              <span class="contact-text">galanimakoy@gmail.com</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
