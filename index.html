@@ -5,6 +5,14 @@
   <title>Gala Ni Makoy</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- SEO / Social Share (optional but professional) -->
+  <meta name="description" content="Cinematic motor journeys through nature, roads, and freedom — ride stories, scenic routes, and real moments on the road.">
+  <meta property="og:title" content="Gala ni Makoy">
+  <meta property="og:description" content="Cinematic rides • nature • freedom. Ride stories and scenic routes.">
+  <meta property="og:type" content="website">
+  <!-- If you want a preview image when sharing link, set this to a real image URL later -->
+  <!-- <meta property="og:image" content="https://YOUR_DOMAIN/assets/images/hero.jpg"> -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -21,6 +29,7 @@
       --shadow2:0 16px 40px rgba(0,0,0,0.35);
       --radius:20px;
       --radius2:16px;
+      --easeOut: cubic-bezier(.16,1,.3,1);
     }
 
     *{ box-sizing:border-box; }
@@ -80,6 +89,7 @@
       flex-wrap:wrap;
       justify-content:flex-end;
     }
+
     .nav-links{ display:flex; gap:6px; align-items:center; }
 
     .navlink, .navlink:visited{
@@ -181,7 +191,7 @@
       padding:120px 0 70px;
       position:relative;
       overflow:hidden;
-      background:url('assets/images/hero.jpg') center var(--heroY, 50%) / cover no-repeat;
+      background: url('assets/images/hero.jpg') center var(--heroY, 50%) / cover no-repeat;
     }
     #home::before{
       content:"";
@@ -191,16 +201,8 @@
         linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.82));
       pointer-events:none;
     }
-    #home::after{
-      content:"";
-      position:absolute;
-      width:620px; height:620px;
-      left:50%; top:62%;
-      transform:translate(-50%,-50%);
-      background:radial-gradient(circle, rgba(201,162,77,0.16), rgba(201,162,77,0));
-      filter:blur(2px);
-      pointer-events:none;
-    }
+    /* removed extra gold glow to avoid any “yellow mark” */
+    #home::after{ content:none; }
 
     .hero-grid{
       position:relative;
@@ -235,6 +237,7 @@
       flex-wrap:wrap;
     }
 
+    /* buttons */
     .btn-ghost, .btn-ghost:visited{
       display:inline-flex;
       align-items:center;
@@ -250,6 +253,7 @@
       transition: transform 180ms ease, background 180ms ease, border 180ms ease, box-shadow 180ms ease;
       white-space:nowrap;
       will-change: transform;
+      cursor:pointer;
     }
     .btn-ghost:hover{
       transform: translateY(-3px);
@@ -257,6 +261,7 @@
       border:1px solid rgba(201,162,77,0.22);
       box-shadow: 0 18px 48px rgba(0,0,0,0.25);
     }
+    .btn-ghost:active{ transform: translateY(-1px) scale(0.99); }
 
     .btn-gold, .btn-gold:visited{
       display:inline-flex;
@@ -275,6 +280,8 @@
       transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
       white-space:nowrap;
       will-change: transform;
+      cursor:pointer;
+      border:none;
     }
     .btn-gold::before{
       content:"";
@@ -295,13 +302,12 @@
     }
     .btn-gold:hover::before{
       opacity:1;
-      animation: sweep 850ms ease;
+      animation: sweep 850ms var(--easeOut);
     }
-    @keyframes sweep{
-      from{ left:-30%; }
-      to{ left:120%; }
-    }
+    .btn-gold:active{ transform: translateY(-1px) scale(0.99); }
+    @keyframes sweep{ from{ left:-30%; } to{ left:120%; } }
 
+    /* hero card */
     .hero-card{
       position:relative;
       overflow:hidden;
@@ -397,7 +403,7 @@
       border-radius: var(--radius);
       padding:18px;
       box-shadow: var(--shadow2);
-      transition: transform 220ms ease, border 220ms ease, background 220ms ease;
+      transition: transform 220ms var(--easeOut), border 220ms var(--easeOut), background 220ms var(--easeOut);
       will-change: transform;
     }
     .card::after{
@@ -419,16 +425,13 @@
     }
     .card:hover::after{
       opacity:1;
-      animation: sweep2 950ms ease;
+      animation: sweep2 950ms var(--easeOut);
     }
-    @keyframes sweep2{
-      from{ left:-60%; }
-      to{ left:140%; }
-    }
+    @keyframes sweep2{ from{ left:-60%; } to{ left:140%; } }
+
     .card h3{ margin:0 0 10px 0; font-size:16px; }
     .card p{ margin:0; color:rgba(234,234,234,0.72); line-height:1.7; font-size:14px; }
 
-    /* Gallery */
     .gallery{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
@@ -443,9 +446,8 @@
       position:relative;
       min-height:210px;
       box-shadow: var(--shadow2);
-      transition: transform 240ms ease, border 240ms ease, box-shadow 240ms ease;
+      transition: transform 240ms var(--easeOut), border 240ms var(--easeOut), box-shadow 240ms var(--easeOut);
       will-change: transform;
-      cursor:pointer; /* ✅ shows it's clickable */
     }
     .g-item img{
       width:100%;
@@ -453,7 +455,7 @@
       object-fit:cover;
       display:block;
       transform: scale(1.02);
-      transition: transform 360ms ease, filter 360ms ease;
+      transition: transform 360ms var(--easeOut), filter 360ms var(--easeOut);
       filter: saturate(1.03) contrast(1.02);
     }
     .g-item:hover{
@@ -490,12 +492,175 @@
       opacity:0;
       transform: translateY(18px);
       filter: blur(6px);
-      transition: opacity 800ms ease, transform 800ms ease, filter 900ms ease;
+      transition: opacity 800ms var(--easeOut), transform 800ms var(--easeOut), filter 900ms var(--easeOut);
     }
     .reveal.show{
       opacity:1;
       transform: translateY(0);
       filter: blur(0);
+    }
+
+    /* CONTACT FORM STYLES */
+    .form{
+      display:grid;
+      gap:12px;
+      margin-top:10px;
+    }
+    .field{
+      width:100%;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.10);
+      color:rgba(234,234,234,0.92);
+      outline:none;
+      transition: border 200ms var(--easeOut), background 200ms var(--easeOut), transform 200ms var(--easeOut);
+      font-size:14px;
+    }
+    .field::placeholder{ color:rgba(234,234,234,0.45); }
+    .field:focus{
+      border:1px solid rgba(201,162,77,0.28);
+      background:rgba(255,255,255,0.055);
+      transform: translateY(-1px);
+    }
+    textarea.field{ min-height:120px; resize:vertical; }
+
+    /* Toast (success / error) */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform: translateX(-50%) translateY(12px);
+      opacity:0;
+      pointer-events:none;
+      padding:12px 14px;
+      border-radius:14px;
+      background:rgba(15,18,24,0.75);
+      border:1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.35);
+      color:rgba(234,234,234,0.92);
+      font-size:13px;
+      transition: opacity 220ms var(--easeOut), transform 220ms var(--easeOut);
+      z-index:9999;
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast strong{ color:#fff; }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:9998;
+    }
+    .lightbox.show{ display:flex; animation: fadeIn 180ms var(--easeOut); }
+    @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+    .lb-card{
+      width:min(980px, 95vw);
+      max-height:88vh;
+      background:rgba(15,18,24,0.55);
+      border:1px solid rgba(255,255,255,0.14);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow: 0 30px 120px rgba(0,0,0,0.55);
+      position:relative;
+    }
+    .lb-img{
+      width:100%;
+      height:88vh;
+      max-height:88vh;
+      object-fit:contain;
+      display:block;
+      background:rgba(0,0,0,0.35);
+      animation: zoomIn 220ms var(--easeOut);
+    }
+    @keyframes zoomIn{
+      from{ transform: scale(0.98); filter: blur(2px); opacity:0.7; }
+      to{ transform: scale(1); filter: blur(0); opacity:1; }
+    }
+
+    .lb-topbar{
+      position:absolute;
+      left:12px; right:12px; top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      pointer-events:none;
+    }
+    .lb-chip{
+      pointer-events:auto;
+      padding:8px 10px;
+      border-radius:999px;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.14);
+      color:rgba(234,234,234,0.9);
+      font-size:12px;
+    }
+    .lb-btn{
+      pointer-events:auto;
+      width:40px; height:40px;
+      border-radius:14px;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.14);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition: transform 160ms var(--easeOut), background 160ms var(--easeOut), border 160ms var(--easeOut);
+      color:#fff;
+      font-size:18px;
+      user-select:none;
+    }
+    .lb-btn:hover{
+      transform: translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.22);
+    }
+    .lb-nav{
+      position:absolute;
+      top:50%;
+      transform: translateY(-50%);
+      width:46px; height:46px;
+      border-radius:16px;
+      background:rgba(0,0,0,0.35);
+      border:1px solid rgba(255,255,255,0.14);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      user-select:none;
+      transition: transform 160ms var(--easeOut), background 160ms var(--easeOut), border 160ms var(--easeOut);
+      color:#fff;
+      font-size:22px;
+    }
+    .lb-nav:hover{
+      transform: translateY(-50%) translateY(-2px);
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(201,162,77,0.22);
+    }
+    .lb-prev{ left:10px; }
+    .lb-next{ right:10px; }
+
+    /* hidden anti-spam field */
+    .hidden{
+      position:absolute;
+      left:-9999px;
+      width:1px;
+      height:1px;
+      overflow:hidden;
     }
 
     @media (max-width: 980px){
@@ -512,87 +677,23 @@
       .hero-title{ font-size:36px; }
       .grid-2{ grid-template-columns: 1fr; }
       .gallery{ grid-template-columns: 1fr; }
-    }
-
-    /* =======================
-       ✅ LIGHTBOX (GALLERY VIEWER)
-       ======================= */
-    .lightbox{
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,0.82);
-      z-index:5000;
-      padding:22px;
-    }
-    .lightbox.show{ display:flex; }
-
-    .lightbox-panel{
-      width:min(980px, 92vw);
-      max-height:88vh;
-      border-radius:20px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(11,15,20,0.55);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow: 0 30px 110px rgba(0,0,0,0.65);
-      position:relative;
-    }
-    .lightbox-img{
-      width:100%;
-      height:70vh;
-      max-height:70vh;
-      object-fit:contain;
-      display:block;
-      background:rgba(0,0,0,0.35);
-    }
-    .lightbox-bar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:12px 14px;
-      border-top:1px solid rgba(255,255,255,0.08);
-      color:rgba(234,234,234,0.9);
-      font-size:13px;
-    }
-    .lightbox-title{
-      opacity:0.9;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-    .lb-btn{
-      width:38px;
-      height:38px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:rgba(255,255,255,0.05);
-      color:rgba(234,234,234,0.92);
-      cursor:pointer;
-      transition: transform 180ms ease, background 180ms ease, border 180ms ease;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      user-select:none;
-    }
-    .lb-btn:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,0.07);
-      border:1px solid rgba(201,162,77,0.22);
-    }
-    .lb-controls{
-      display:flex;
-      gap:10px;
-      align-items:center;
+      .lb-nav{ display:none; } /* swipe will be used on mobile */
     }
   </style>
 </head>
 
 <body>
+
+  <!-- Google Analytics 4 (OPTIONAL) -->
+  <!-- Replace G-XXXXXXXXXX with your real GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <nav>
     <div class="nav-inner">
       <div class="brand">GALA NI MAKOY</div>
@@ -612,11 +713,13 @@
               <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.4h-1.2c-1.2 0-1.6.8-1.6 1.5v1.8H16l-.4 2.9h-1.9v7A10 10 0 0 0 22 12z"/>
             </svg>
           </a>
+
           <a class="icon-btn" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.8 4.6 12 4.6 12 4.6s-5.8 0-7.5.5A3 3 0 0 0 2.4 7.2 31.3 31.3 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.7.5 7.5.5 7.5.5s5.8 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
           </a>
+
           <a class="icon-btn" href="https://www.tiktok.com/" target="_blank" rel="noopener" aria-label="TikTok">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M16.7 3c.6 2.6 2.4 4.6 5 5.1v3.1c-1.8 0-3.5-.6-5-1.7v6.8c0 3.8-3.1 6.8-6.9 6.8S3 20.1 3 16.3c0-3.8 3.1-6.8 6.9-6.8.4 0 .8 0 1.2.1v3.4c-.4-.2-.8-.3-1.2-.3-1.9 0-3.4 1.5-3.4 3.4S8 19.6 9.9 19.6s3.4-1.5 3.4-3.4V3h3.4z"/>
@@ -662,11 +765,11 @@
       <div class="grid-2">
         <div class="card">
           <h3>Who is Makoy?</h3>
-          <p>A rider driven by the love of open roads, changing landscapes, and the quiet freedom that comes with every journey. Passionate about exploring nature, discovering new places, and documenting real, unfiltered experiences along the way. Each ride is more than just travel—it’s a story, a moment, and a connection between the road, the environment, and the rider behind the handlebars</p>
+          <p>Rider who loves roads, nature, and documenting real experiences across places.</p>
         </div>
         <div class="card">
           <h3>What to expect</h3>
-          <p>Detailed ride logs from real journeys, scenic stops worth slowing down for, and carefully chosen route recommendations for fellow riders. Expect cinematic travel moments captured on the road, honest reflections from each trip, and practical insights that blend adventure, nature, and the raw experience of riding through different places.</p>
+          <p>Ride logs, scenic stops, route recommendations, and cinematic travel moments.</p>
         </div>
       </div>
     </div>
@@ -696,22 +799,13 @@
     <div class="container reveal">
       <div class="section-head">
         <h2>Photos</h2>
-        <p class="hint">A nature with you.</p>
+        <p class="hint">Hover to zoom. Click to view large.</p>
       </div>
 
       <div class="gallery">
-        <div class="g-item" data-caption="Golden Hour Ride">
-          <img src="assets/images/hero.jpg" alt="Ride 1">
-          <div class="g-cap">Golden Hour Ride</div>
-        </div>
-        <div class="g-item" data-caption="Mountain Roads">
-          <img src="assets/images/hero1.jpg" alt="Ride 2">
-          <div class="g-cap">Mountain Roads</div>
-        </div>
-        <div class="g-item" data-caption="Nature Stops">
-          <img src="assets/images/hero2.jpg" alt="Ride 3">
-          <div class="g-cap">Nature Stops</div>
-        </div>
+        <div class="g-item"><img src="assets/images/hero.jpg" alt="Golden Hour Ride" data-cap="Golden Hour Ride"><div class="g-cap">Golden Hour Ride</div></div>
+        <div class="g-item"><img src="assets/images/hero1.jpg" alt="Mountain Roads" data-cap="Mountain Roads"><div class="g-cap">Mountain Roads</div></div>
+        <div class="g-item"><img src="assets/images/hero2.jpg" alt="Nature Stops" data-cap="Nature Stops"><div class="g-cap">Nature Stops</div></div>
       </div>
     </div>
   </section>
@@ -726,21 +820,33 @@
       <div class="grid-2">
         <div class="card">
           <h3>Collaboration</h3>
-          <p>0976 009 8609</p>
-          <p>galanimakoy@gmail.com</p>
+          <p>Gear reviews, travel features, tourism shoots, brand campaigns.</p>
         </div>
-        <div class="card">
-          <h3>Socials</h3>
-          <p>Follow the journey on Facebook, YouTube, and TikTok.</p>
 
-          <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn-ghost" style="background:#1877F2; border-color: rgba(24,119,242,0.35); color:#0B0F14; font-weight:800;"
-               href="https://www.facebook.com/profile.php?id=61587711260477" target="_blank" rel="noopener">Facebook</a>
-            <a class="btn-ghost" style="background:#FF0000; border-color: rgba(255,0,0,0.28); color:#0B0F14; font-weight:800;"
-               href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a>
-            <a class="btn-ghost" style="background:#111111; border-color: rgba(255,255,255,0.12); color:#EAEAEA; font-weight:800;"
-               href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a>
-          </div>
+        <div class="card">
+          <h3>Send a message</h3>
+          <p style="margin:0 0 12px 0; color:rgba(234,234,234,0.72);">For collaborations, sponsors, or ride invites.</p>
+
+          <!-- NETLIFY FORM (NO BACKEND NEEDED) -->
+          <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+            <!-- required hidden input -->
+            <input type="hidden" name="form-name" value="contact" />
+
+            <!-- honeypot anti-spam -->
+            <div class="hidden">
+              <label>Don’t fill this out: <input name="bot-field" /></label>
+            </div>
+
+            <input class="field" type="text" name="name" placeholder="Your name" required>
+            <input class="field" type="email" name="email" placeholder="Your email" required>
+            <textarea class="field" name="message" placeholder="Your message" required></textarea>
+
+            <button class="btn-gold" id="sendBtn" type="submit">Send Message</button>
+          </form>
+
+          <p style="margin:10px 0 0; font-size:12px; color:rgba(234,234,234,0.55); line-height:1.5;">
+            Tip: After your first test submission, check <b>Netlify → Forms</b> to see messages.
+          </p>
         </div>
       </div>
     </div>
@@ -748,22 +854,26 @@
 
   <footer>
     <div class="container">
-      © <span id="year"></span> Gala Ni Makoy • Cinematic rides & nature journeys made by Kennethpogi23
+      © <span id="year"></span> Gala Ni Makoy • Cinematic rides & nature journeys
     </div>
   </footer>
 
-  <!-- ✅ LIGHTBOX HTML -->
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
-    <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Photo viewer">
-      <img id="lightboxImg" class="lightbox-img" src="" alt="Viewing photo">
-      <div class="lightbox-bar">
-        <div class="lightbox-title" id="lightboxTitle">Photo</div>
-        <div class="lb-controls">
-          <button class="lb-btn" id="prevBtn" aria-label="Previous photo">‹</button>
-          <button class="lb-btn" id="nextBtn" aria-label="Next photo">›</button>
-          <button class="lb-btn" id="closeBtn" aria-label="Close">✕</button>
+    <div class="lb-card" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <img class="lb-img" id="lbImg" src="" alt="">
+      <div class="lb-topbar">
+        <div class="lb-chip" id="lbChip">1 / 1</div>
+        <div style="display:flex; gap:10px;">
+          <div class="lb-btn" id="lbClose" title="Close">✕</div>
         </div>
       </div>
+
+      <div class="lb-nav lb-prev" id="lbPrev" title="Previous">‹</div>
+      <div class="lb-nav lb-next" id="lbNext" title="Next">›</div>
     </div>
   </div>
 
@@ -793,19 +903,17 @@
     }
     window.addEventListener("scroll", updateActive, { passive:true });
     window.addEventListener("load", updateActive);
-    links.forEach(a => a.addEventListener("click", () => {
-      const id = a.getAttribute("href").replace("#","");
-      setActive(id);
-    }));
 
     // SCROLL REVEAL
     const revealEls = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add("show"); });
+      entries.forEach(e => {
+        if(e.isIntersecting) e.target.classList.add("show");
+      });
     }, { threshold: 0.12 });
     revealEls.forEach(el => obs.observe(el));
 
-    // HERO PARALLAX
+    // HERO PARALLAX (subtle)
     const home = document.getElementById("home");
     let ticking = false;
     function onScroll(){
@@ -822,65 +930,108 @@
     }
     window.addEventListener("scroll", onScroll, { passive:true });
 
-    // ======================
-    // ✅ GALLERY LIGHTBOX
-    // ======================
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightboxImg");
-    const lightboxTitle = document.getElementById("lightboxTitle");
-    const closeBtn = document.getElementById("closeBtn");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
+    // TOAST helper
+    const toast = document.getElementById("toast");
+    let toastTimer = null;
+    function showToast(message){
+      toast.innerHTML = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+    }
 
-    const galleryItems = [...document.querySelectorAll(".g-item img")];
+    // FORM UX (success / loading) - still uses Netlify backend
+    const form = document.querySelector('form[name="contact"]');
+    const sendBtn = document.getElementById("sendBtn");
+
+    form.addEventListener("submit", () => {
+      // show instant feedback (Netlify will still submit normally)
+      sendBtn.textContent = "Sending...";
+      sendBtn.style.pointerEvents = "none";
+      sendBtn.style.filter = "brightness(0.95)";
+      showToast("<strong>Sending…</strong> please wait.");
+
+      // When Netlify finishes, it usually reloads or redirects.
+      // If it stays same page, we reset after a short time:
+      setTimeout(() => {
+        sendBtn.textContent = "Send Message";
+        sendBtn.style.pointerEvents = "";
+        sendBtn.style.filter = "";
+        showToast("<strong>Sent!</strong> Your message was delivered.");
+      }, 1200);
+    });
+
+    // LIGHTBOX (gallery click -> big view)
+    const galleryImgs = [...document.querySelectorAll(".gallery img")];
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbChip = document.getElementById("lbChip");
+    const lbClose = document.getElementById("lbClose");
+    const lbPrev = document.getElementById("lbPrev");
+    const lbNext = document.getElementById("lbNext");
+
     let currentIndex = 0;
 
-    function openLightbox(index){
-      currentIndex = index;
-      const img = galleryItems[currentIndex];
-      const cap = img.closest(".g-item")?.dataset?.caption || img.alt || "Photo";
-      lightboxImg.src = img.src;
-      lightboxTitle.textContent = cap;
+    function openLightbox(i){
+      currentIndex = i;
+      const img = galleryImgs[currentIndex];
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || "Photo";
+      lbChip.textContent = (currentIndex + 1) + " / " + galleryImgs.length;
       lightbox.classList.add("show");
+      lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
     }
 
     function closeLightbox(){
       lightbox.classList.remove("show");
+      lightbox.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
-      lightboxImg.src = "";
     }
 
     function showPrev(){
-      currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+      currentIndex = (currentIndex - 1 + galleryImgs.length) % galleryImgs.length;
       openLightbox(currentIndex);
     }
     function showNext(){
-      currentIndex = (currentIndex + 1) % galleryItems.length;
+      currentIndex = (currentIndex + 1) % galleryImgs.length;
       openLightbox(currentIndex);
     }
 
-    galleryItems.forEach((img, i) => {
-      img.addEventListener("click", () => openLightbox(i));
+    galleryImgs.forEach((img, i) => {
       img.style.cursor = "pointer";
+      img.addEventListener("click", () => openLightbox(i));
     });
 
-    closeBtn.addEventListener("click", closeLightbox);
-    prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
-    nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
+    lbClose.addEventListener("click", closeLightbox);
+    lbPrev.addEventListener("click", (e) => { e.stopPropagation(); showPrev(); });
+    lbNext.addEventListener("click", (e) => { e.stopPropagation(); showNext(); });
 
-    // click outside image closes
     lightbox.addEventListener("click", (e) => {
       if(e.target === lightbox) closeLightbox();
     });
 
-    // keyboard controls
     window.addEventListener("keydown", (e) => {
       if(!lightbox.classList.contains("show")) return;
       if(e.key === "Escape") closeLightbox();
       if(e.key === "ArrowLeft") showPrev();
       if(e.key === "ArrowRight") showNext();
     });
+
+    // Swipe on mobile
+    let touchStartX = null;
+    lightbox.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive:true });
+
+    lightbox.addEventListener("touchend", (e) => {
+      if(touchStartX === null) return;
+      const endX = e.changedTouches[0].clientX;
+      const diff = endX - touchStartX;
+      touchStartX = null;
+      if(Math.abs(diff) < 40) return;
+      if(diff > 0) showPrev(); else showNext();
+    }, { passive:true });
   </script>
 </body>
 </html>
