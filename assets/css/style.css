@@ -34,9 +34,8 @@
 
 body.page-ready{
   opacity: 1;
-  transform: translateY(0);
+  transform: none; /* IMPORTANT: not translateY(0) */
 }
-
     
     html { scroll-behavior:smooth; }
     @media (prefers-reduced-motion: reduce){
@@ -871,19 +870,21 @@ body.page-ready{
       align-items:center;
       justify-content:center;
       background:rgba(0,0,0,0.84);
-      z-index:5000;
+      z-index:99999;
       padding:22px;
       opacity:0;
       transition: opacity 240ms var(--easeOut);
     }
     .lightbox.show{
-      display:flex;
-      opacity:1;
-    }
+  display:grid;
+  place-items:center;
+  opacity:1;
+}
+
 
     .lightbox-panel{
       width:min(1000px, 92vw);
-      max-height:88vh;
+      max-height:92vh;
       border-radius:22px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.10);
@@ -901,16 +902,17 @@ body.page-ready{
       transform: translateY(0) scale(1);
       opacity:1;
     }
-    .lightbox-img{
-      width:100%;
-      height:70vh;
-      max-height:70vh;
-      object-fit:contain;
-      display:block;
-      background:rgba(0,0,0,0.35);
-      user-select:none;
-      -webkit-user-drag:none;
-    }
+.lightbox-img{
+  width:100%;
+  height:auto;        /* important */
+  max-height:80dvh;   /* better than vh on mobile/zoom */
+  object-fit:contain;
+  display:block;
+  background:rgba(0,0,0,0.35);
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
     .lightbox-bar{
       display:flex;
       align-items:center;
