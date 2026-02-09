@@ -1,13 +1,5 @@
 // Inline photos fallback (used when fetch() is blocked, e.g. opening file:// locally)
-    window.__PHOTOS_DATA__ = [
-      { "src": "assets/images/hero.jpg", "caption": "Golden Hour Ride" },
-      { "src": "assets/images/hero1.jpg", "caption": "Sea Side" },
-      { "src": "assets/images/hero2.jpg", "caption": "Nature Stops" },
-      { "src": "assets/images/hero3.jpg", "caption": "Lovely River" },
-      { "src": "assets/images/hero4.jpg", "caption": "Over View" },
-      { "src": "assets/images/hero5.png", "caption": "Good Spot" },
-      { "src": "assets/images/test.jpg", "caption": "Good Spot" }
-    ];
+  
     document.getElementById('year').textContent = new Date().getFullYear();
 
     /* ---------- ACTIVE NAV HIGHLIGHT ---------- */
@@ -34,14 +26,20 @@
     window.addEventListener("scroll", updateActive, { passive:true });
     window.addEventListener("load", updateActive);
 
-    /* ---------- SCROLL REVEAL ---------- */
-    const revealEls = document.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting) e.target.classList.add("show");
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => obs.observe(el));
+   /* ---------- SCROLL REVEAL (stagger) ---------- */
+const revealEls = document.querySelectorAll(".reveal");
+revealEls.forEach((el, i) => {
+  el.style.setProperty("--d", (i % 12) * 25 + "ms"); // stagger delay
+});
+
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add("show");
+  });
+}, { threshold: 0.12 });
+
+revealEls.forEach(el => obs.observe(el));
+
 
     /* ---------- HERO PARALLAX ---------- */
     const home = document.getElementById("home");
@@ -103,7 +101,6 @@
     const closeBtn = document.getElementById("closeBtn");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-
     const galleryContainer = document.getElementById('galleryGrid');
     let galleryItems = [];
     let currentIndex = 0;
@@ -115,6 +112,17 @@
         .replace(/>/g,'&gt;')
         .replace(/"/g,'&quot;');
     }
+
+/* ---------- LIGHTBOX ZOOM ---------- */
+if(lightbox && lightboxImg){
+  lightboxImg.addEventListener("click", (e) => {
+    e.stopPropagation(); // don't close lightbox
+    lightbox.classList.toggle("zoom");
+  });
+}
+
+
+
 
     async function loadGallery(){
       if(!galleryContainer) return;
@@ -136,7 +144,15 @@
             lastError = new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
             continue;
           }
-          photos = await res.json();
+
+          
+          // allow both formats:
+// 1) old: [ {...}, {...} ]
+// 2) new CMS: { photos: [ {...} ] }
+if (photos && !Array.isArray(photos) && Array.isArray(photos.photos)) {
+  photos = photos.photos;
+}
+
           console.debug('Loaded gallery JSON from', url);
           break;
         }catch(err){
@@ -230,6 +246,7 @@
 
     function closeLightbox(){
       lightbox.classList.remove('show');
+      lightbox.classList.remove("zoom");
       document.body.style.overflow = '';
       lightboxImg.src = '';
     }
@@ -313,5 +330,25 @@
       const isOpen = burger.getAttribute("aria-expanded") === "true";
       if(isOpen && e.key === "Escape") closeMenu();
     });
+
+
+    /* ---------- BACK TO TOP ---------- */
+const toTopBtn = document.getElementById("toTop");
+
+function toggleToTop(){
+  if(!toTopBtn) return;
+  const y = window.scrollY || document.documentElement.scrollTop;
+  toTopBtn.classList.toggle("show", y > 500);
+}
+
+if(toTopBtn){
+  window.addEventListener("scroll", toggleToTop, { passive:true });
+  window.addEventListener("load", toggleToTop);
+
+  toTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
 
     window.addEventListener("load", () => document.body.classList.add("page-ready"));
