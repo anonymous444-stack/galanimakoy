@@ -17,8 +17,9 @@ collections:
           - label: "Photos"
             name: "photos"
             widget: "list"
-            allow_add: true # Ensures you can add new rows
+            allow_add: true
             summary: "{{fields.caption}}"
             fields:
-              - { label: "Image", name: "src", widget: "image", choose_url: false }
-              - { label: "Caption", name: "caption", widget: "string" }
+              - { label: "Image", name: "src", widget: "image" }
+              - { label: "Caption", name: "caption", widget: "string", required: false }
+
