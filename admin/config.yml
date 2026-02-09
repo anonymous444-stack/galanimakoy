@@ -3,17 +3,22 @@ backend:
   branch: main
 
 media_folder: "assets/images"
-public_folder: "/assets/images"
+public_folder: "assets/images" # Removed the leading slash to fix the path bug
 
 collections:
   - name: "gallery"
     label: "Gallery"
-    folder: "content/gallery" # This creates a folder for each photo entry
-    create: true # This allows you to add NEW entries
-    extension: "json"
-    format: "json"
-    slug: "{{title}}" # The filename will be the title
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Image", name: "src", widget: "image" }
-      - { label: "Caption", name: "caption", widget: "string" }
+    files:
+      - file: "assets/images/photos.json"
+        label: "Photos JSON"
+        name: "photos"
+        format: "json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            allow_add: true # Ensures you can add new rows
+            summary: "{{fields.caption}}"
+            fields:
+              - { label: "Image", name: "src", widget: "image", choose_url: false }
+              - { label: "Caption", name: "caption", widget: "string" }
