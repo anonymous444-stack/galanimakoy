@@ -1,8 +1,12 @@
 {
   "photos": [
     {
-      "src": "/assets/images/flower.jpg",
-      "caption": "Flower"
+      "src": "/assets/images/hero.jpg",
+      "caption": "Nice View"
+    },
+    {
+      "src": "/assets/images/hero1.jpg",
+      "caption": "Sea Side"
     }
   ]
 }
