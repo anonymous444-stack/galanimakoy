@@ -1,0 +1,23 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "gallery"
+    label: "Gallery"
+    files:
+      - file: "assets/images/photos.json"
+        label: "Photos JSON"
+        name: "photos"
+        format: "json"
+        fields:
+          - label: "Photos"
+            name: "photos"
+            widget: "list"
+            summary: "{{fields.caption}}"
+            fields:
+              - { label: "Image", name: "src", widget: "image" }
+              - { label: "Caption", name: "caption", widget: "string" }
