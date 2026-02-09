@@ -1,8 +1,28 @@
 {
   "photos": [
     {
+      "src": "assets/images/flower.jpg",
+      "caption": "Flower"
+    },
+    {
+      "src": "assets/images/hero1.jpg",
+      "caption": "Sea Side"
+    },
+    {
       "src": "assets/images/hero.jpg",
-      "caption": " Hiking"
+      "caption": "Hiking"
+    },
+    {
+      "src": "assets/images/hero3.jpg",
+      "caption": "Nice People"
+    },
+    {
+      "src": "assets/images/flower.jpg",
+      "caption": "Flower"
+    },
+    {
+      "src": "assets/images/hero4.jpg",
+      "caption": "Over View"
     }
   ]
 }
