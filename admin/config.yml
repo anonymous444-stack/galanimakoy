@@ -3,7 +3,7 @@ backend:
   branch: main
 
 media_folder: "assets/images"
-public_folder: "assets/images" # Removed the leading slash to fix the path bug
+public_folder: "/assets/images"
 
 collections:
   - name: "gallery"
@@ -22,4 +22,3 @@ collections:
             fields:
               - { label: "Image", name: "src", widget: "image" }
               - { label: "Caption", name: "caption", widget: "string", required: false }
-
