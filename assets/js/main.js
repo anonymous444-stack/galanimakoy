@@ -154,7 +154,15 @@ if(lightbox && lightboxImg){
   // RENDER THE HTML
   galleryContainer.innerHTML = photos.map((p, i) => {
     // FIX: Removes the leading "/" that breaks GitHub Pages paths
-    const cleanSrc = (p.src && p.src.startsWith('/')) ? p.src.substring(1) : p.src;
+   const s = (p.src || "").trim();
+const cleanSrc =
+  s.startsWith("http") ? s :
+  s.startsWith("/assets/") ? s :
+  s.startsWith("assets/") ? "/" + s :
+  s.startsWith("/") ? s :
+  "/" + s;
+
+
     
     return (
       `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption || '')}">` +
