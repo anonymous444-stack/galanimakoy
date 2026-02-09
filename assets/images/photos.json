@@ -1,10 +1,8 @@
 {
   "photos": [
-    { "src": "assets/images/hero.jpg",  "caption": "Golden Hour Ride" },
-    { "src": "assets/images/hero1.jpg", "caption": "Sea Side" },
-    { "src": "assets/images/hero2.jpg", "caption": "Nature Stops" },
-    { "src": "assets/images/hero3.jpg", "caption": "Lovely River" },
-    { "src": "assets/images/hero4.jpg", "caption": "Over View" },
-    { "src": "assets/images/hero5.png", "caption": "Good Spot" }
+    {
+      "src": "assets/images/sweet.jpg",
+      "caption": "Sweets"
+    }
   ]
 }
