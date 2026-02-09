@@ -125,34 +125,40 @@ if(lightbox && lightboxImg){
 
 
 
-    async function loadGallery() {
+   async function loadGallery() {
   if (!galleryContainer) return;
 
-  const url = new URL('assets/images/photos.json', location.href).href;
-  let photos = null;
-  let lastError = null;
+  // 1. Point this to your actual GitHub Repo
+  const repo = "YOUR_USERNAME/YOUR_REPO_NAME"; 
+  const apiUrl = `https://api.github.com/repos/${repo}/contents/content/gallery`;
+  
+  let photos = [];
 
   try {
-    const res = await fetch(url);
-    if (res.ok) {
-      const data = await res.json();
-      // This line is the magic: it looks for the "photos" array Decap CMS created
-      photos = data.photos || data; 
-      console.log('Successfully loaded from CMS:', photos);
-    } else {
-      lastError = new Error(`HTTP ${res.status}`);
-    }
+    // Get the list of all JSON files in that folder
+    const response = await fetch(apiUrl);
+    const files = await response.json();
+
+    // Fetch the data inside each file
+    const photoDataPromises = files
+      .filter(file => file.name.endsWith('.json'))
+      .map(file => fetch(file.download_url).then(res => res.json()));
+
+    const folderData = await Promise.all(photoDataPromises);
+    
+    // Clean up paths (remove the "/" at the start if it exists)
+    photos = folderData.map(p => ({
+      ...p,
+      src: (p.src && p.src.startsWith('/')) ? p.src.substring(1) : p.src
+    }));
+
+    console.log('Loaded from Folder Collection:', photos);
   } catch (err) {
-    lastError = err;
-  }
-
-  // If the file fetch failed, use the hardcoded fallback from index.html
-  if (!photos) {
+    console.warn('Folder load failed, trying fallback:', err);
     photos = window.__PHOTOS_DATA__ || [];
-    console.warn('Using fallback data:', lastError);
   }
 
-  // RENDER THE HTML
+  // RENDER THE HTML (This part stays the same)
   galleryContainer.innerHTML = photos.map((p, i) => (
     `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption || '')}">` +
     `<img src="${escapeHtml(p.src || '')}" alt="${escapeHtml(p.caption || 'Photo')}" loading="lazy" data-index="${i}">` +
@@ -160,7 +166,7 @@ if(lightbox && lightboxImg){
     `</div>`
   )).join('');
 
-  // Re-attach Lightbox and Tilt effects
+  // RE-ATTACH HANDLERS (This part stays the same)
   galleryItems = [...document.querySelectorAll('.g-item img')];
   galleryItems.forEach((img, i) => {
     img.addEventListener('click', () => openLightbox(i));
