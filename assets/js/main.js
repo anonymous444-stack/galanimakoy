@@ -124,115 +124,59 @@ if(lightbox && lightboxImg){
 
 
 
-    async function loadGallery(){
-      if(!galleryContainer) return;
-      const candidates = [
-        'assets/images/photos.json',
-        './assets/images/photos.json',
-        'assets/photos.json',
-        './assets/photos.json'
-      ].map(p => new URL(p, location.href).href);
+    async function loadGallery() {
+  if (!galleryContainer) return;
 
-      let photos = null;
-      let lastError = null;
+  const url = new URL('assets/images/photos.json', location.href).href;
+  let photos = null;
+  let lastError = null;
 
-      for(const url of candidates){
-        try{
-          console.debug('Trying gallery JSON URL:', url);
-          const res = await fetch(url);
-          if(!res.ok){
-            lastError = new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
-            continue;
-          }
-
-          
-          // allow both formats:
-// 1) old: [ {...}, {...} ]
-// 2) new CMS: { photos: [ {...} ] }
-if (photos && !Array.isArray(photos) && Array.isArray(photos.photos)) {
-  photos = photos.photos;
-}
-
-          console.debug('Loaded gallery JSON from', url);
-          break;
-        }catch(err){
-          lastError = err;
-        }
-      }
-
-      if(!photos){
-        // fallback to inline data when available (works for file:// opens)
-        if(window.__PHOTOS_DATA__ && Array.isArray(window.__PHOTOS_DATA__) && window.__PHOTOS_DATA__.length){
-          console.debug('Using inline __PHOTOS_DATA__ fallback for gallery');
-          photos = window.__PHOTOS_DATA__;
-        }
-      }
-
-      if(!photos){
-        // show an on-page error so users on GitHub Pages can see it without DevTools
-        const errMsg = lastError ? lastError.message : 'Unknown error fetching gallery JSON';
-        console.error('Gallery load failed:', errMsg);
-        galleryContainer.innerHTML = `<div style="padding:18px;border-radius:12px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.12);color:#FFDADA;">`+
-          `<strong>Gallery failed to load</strong><div style="font-size:13px;margin-top:8px;">${escapeHtml(errMsg)}</div>`+
-          `<div style="margin-top:8px;font-size:12px;color:rgba(255,255,255,0.8);">Tried URLs:<ul style=\"margin:6px 0 0 18px;\">${candidates.map(u=>`<li>${escapeHtml(u)}</li>`).join('')}</ul></div>`+
-        `</div>`;
-        return;
-      }
-        galleryContainer.innerHTML = photos.map((p,i) => (
-          `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption||'')}">`+
-            `<img src="${escapeHtml(p.src||'')}" alt="${escapeHtml(p.caption||'Photo')}" loading="lazy" data-index="${i}">`+
-            `<div class="g-cap">${escapeHtml(p.caption||'')}</div>`+
-          `</div>`
-        )).join('');
-
-        // refresh galleryItems and attach handlers
-        galleryItems = [...document.querySelectorAll('.g-item img')];
-        galleryItems.forEach((img,i) => {
-          img.addEventListener('click', () => openLightbox(i));
-          img.style.cursor = 'pointer';
-        });
-
-        // initialize tilt on new elements (avoid duplicate listeners)
-        if(supportsHover){
-          const newTilts = document.querySelectorAll('.tilt-card');
-          newTilts.forEach(el => {
-            if(!el.dataset.tiltInited){
-              setVars(el,50,50);
-              el.addEventListener('mousemove', (e) => applyTilt(el,e));
-              el.addEventListener('mouseleave', () => resetTilt(el));
-              el.dataset.tiltInited = '1';
-            }
-          });
-        }
-
-      // render
-      galleryContainer.innerHTML = photos.map((p,i) => (
-        `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption||'')}">`+
-          `<img src="${escapeHtml(p.src||'')}" alt="${escapeHtml(p.caption||'Photo')}" loading="lazy" data-index="${i}">`+
-          `<div class="g-cap">${escapeHtml(p.caption||'')}</div>`+
-        `</div>`
-      )).join('');
-
-      // refresh galleryItems and attach handlers
-      galleryItems = [...document.querySelectorAll('.g-item img')];
-      galleryItems.forEach((img,i) => {
-        img.addEventListener('click', () => openLightbox(i));
-        img.style.cursor = 'pointer';
-      });
-
-      // initialize tilt on new elements (avoid duplicate listeners)
-      if(supportsHover){
-        const newTilts = document.querySelectorAll('.tilt-card');
-        newTilts.forEach(el => {
-          if(!el.dataset.tiltInited){
-            setVars(el,50,50);
-            el.addEventListener('mousemove', (e) => applyTilt(el,e));
-            el.addEventListener('mouseleave', () => resetTilt(el));
-            el.dataset.tiltInited = '1';
-          }
-        });
-      }
+  try {
+    const res = await fetch(url);
+    if (res.ok) {
+      const data = await res.json();
+      // This line is the magic: it looks for the "photos" array Decap CMS created
+      photos = data.photos || data; 
+      console.log('Successfully loaded from CMS:', photos);
+    } else {
+      lastError = new Error(`HTTP ${res.status}`);
     }
+  } catch (err) {
+    lastError = err;
+  }
+
+  // If the file fetch failed, use the hardcoded fallback from index.html
+  if (!photos) {
+    photos = window.__PHOTOS_DATA__ || [];
+    console.warn('Using fallback data:', lastError);
+  }
+
+  // RENDER THE HTML
+  galleryContainer.innerHTML = photos.map((p, i) => (
+    `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption || '')}">` +
+    `<img src="${escapeHtml(p.src || '')}" alt="${escapeHtml(p.caption || 'Photo')}" loading="lazy" data-index="${i}">` +
+    `<div class="g-cap">${escapeHtml(p.caption || '')}</div>` +
+    `</div>`
+  )).join('');
+
+  // Re-attach Lightbox and Tilt effects
+  galleryItems = [...document.querySelectorAll('.g-item img')];
+  galleryItems.forEach((img, i) => {
+    img.addEventListener('click', () => openLightbox(i));
+    img.style.cursor = 'pointer';
+  });
+
+  if (supportsHover) {
+    document.querySelectorAll('.tilt-card').forEach(el => {
+      if (!el.dataset.tiltInited) {
+        setVars(el, 50, 50);
+        el.addEventListener('mousemove', (e) => applyTilt(el, e));
+        el.addEventListener('mouseleave', () => resetTilt(el));
+        el.dataset.tiltInited = '1';
+      }
+    });
+  }
+}
 
     function openLightbox(index){
       currentIndex = index;
