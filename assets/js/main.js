@@ -125,10 +125,10 @@ if(lightbox && lightboxImg){
 
 
 
-   async function loadGallery() {
+ async function loadGallery() {
   if (!galleryContainer) return;
 
-  // Use a cache-buster (?t=) to ensure the browser always gets the newest photos.json
+  // Cache-buster helps the browser see the update immediately
   const url = `assets/images/photos.json?t=${new Date().getTime()}`;
   let photos = null;
   let lastError = null;
@@ -137,9 +137,9 @@ if(lightbox && lightboxImg){
     const res = await fetch(url);
     if (res.ok) {
       const data = await res.json();
-      // This handles the Decap CMS "list" format: { "photos": [...] }
+      // This pulls the list from your "photos" key in photos.json
       photos = data.photos || data; 
-      console.log('Successfully loaded from GitHub:', photos);
+      console.log('Gallery data loaded:', photos);
     } else {
       lastError = new Error(`HTTP ${res.status}`);
     }
@@ -147,15 +147,13 @@ if(lightbox && lightboxImg){
     lastError = err;
   }
 
-  // Fallback to index.html data ONLY if the fetch fails
   if (!photos) {
     photos = window.__PHOTOS_DATA__ || [];
-    console.warn('Using fallback data:', lastError);
   }
 
-  // RENDER THE HTML WITH THE SLASH FIX
+  // RENDER THE HTML
   galleryContainer.innerHTML = photos.map((p, i) => {
-    // FIX: Removes the leading "/" that Decap CMS adds, which breaks GitHub Pages paths
+    // FIX: Removes the leading "/" that breaks GitHub Pages paths
     const cleanSrc = (p.src && p.src.startsWith('/')) ? p.src.substring(1) : p.src;
     
     return (
@@ -166,11 +164,10 @@ if(lightbox && lightboxImg){
     );
   }).join('');
 
-  // Re-attach Lightbox and Tilt effects
+  // Re-bind Lightbox and Tilt
   galleryItems = [...document.querySelectorAll('.g-item img')];
   galleryItems.forEach((img, i) => {
     img.addEventListener('click', () => openLightbox(i));
-    img.style.cursor = 'pointer';
   });
 
   if (supportsHover) {
