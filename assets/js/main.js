@@ -105,13 +105,14 @@ revealEls.forEach(el => obs.observe(el));
     let galleryItems = [];
     let currentIndex = 0;
 
-    function escapeHtml(s){
-      return String(s)
-        .replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;');
-    }
+  function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 /* ---------- LIGHTBOX ZOOM ---------- */
 if(lightbox && lightboxImg){
