@@ -128,45 +128,45 @@ if(lightbox && lightboxImg){
    async function loadGallery() {
   if (!galleryContainer) return;
 
-  // 1. Point this to your actual GitHub Repo
-  const repo = "YOUR_USERNAME/YOUR_REPO_NAME"; 
-  const apiUrl = `https://api.github.com/repos/${repo}/contents/content/gallery`;
-  
-  let photos = [];
+  // Use a cache-buster (?t=) to ensure the browser always gets the newest photos.json
+  const url = `assets/images/photos.json?t=${new Date().getTime()}`;
+  let photos = null;
+  let lastError = null;
 
   try {
-    // Get the list of all JSON files in that folder
-    const response = await fetch(apiUrl);
-    const files = await response.json();
-
-    // Fetch the data inside each file
-    const photoDataPromises = files
-      .filter(file => file.name.endsWith('.json'))
-      .map(file => fetch(file.download_url).then(res => res.json()));
-
-    const folderData = await Promise.all(photoDataPromises);
-    
-    // Clean up paths (remove the "/" at the start if it exists)
-    photos = folderData.map(p => ({
-      ...p,
-      src: (p.src && p.src.startsWith('/')) ? p.src.substring(1) : p.src
-    }));
-
-    console.log('Loaded from Folder Collection:', photos);
+    const res = await fetch(url);
+    if (res.ok) {
+      const data = await res.json();
+      // This handles the Decap CMS "list" format: { "photos": [...] }
+      photos = data.photos || data; 
+      console.log('Successfully loaded from GitHub:', photos);
+    } else {
+      lastError = new Error(`HTTP ${res.status}`);
+    }
   } catch (err) {
-    console.warn('Folder load failed, trying fallback:', err);
-    photos = window.__PHOTOS_DATA__ || [];
+    lastError = err;
   }
 
-  // RENDER THE HTML (This part stays the same)
-  galleryContainer.innerHTML = photos.map((p, i) => (
-    `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption || '')}">` +
-    `<img src="${escapeHtml(p.src || '')}" alt="${escapeHtml(p.caption || 'Photo')}" loading="lazy" data-index="${i}">` +
-    `<div class="g-cap">${escapeHtml(p.caption || '')}</div>` +
-    `</div>`
-  )).join('');
+  // Fallback to index.html data ONLY if the fetch fails
+  if (!photos) {
+    photos = window.__PHOTOS_DATA__ || [];
+    console.warn('Using fallback data:', lastError);
+  }
 
-  // RE-ATTACH HANDLERS (This part stays the same)
+  // RENDER THE HTML WITH THE SLASH FIX
+  galleryContainer.innerHTML = photos.map((p, i) => {
+    // FIX: Removes the leading "/" that Decap CMS adds, which breaks GitHub Pages paths
+    const cleanSrc = (p.src && p.src.startsWith('/')) ? p.src.substring(1) : p.src;
+    
+    return (
+      `<div class="g-item tilt-card" data-caption="${escapeHtml(p.caption || '')}">` +
+      `<img src="${escapeHtml(cleanSrc)}" alt="${escapeHtml(p.caption || 'Photo')}" loading="lazy" data-index="${i}">` +
+      `<div class="g-cap">${escapeHtml(p.caption || '')}</div>` +
+      `</div>`
+    );
+  }).join('');
+
+  // Re-attach Lightbox and Tilt effects
   galleryItems = [...document.querySelectorAll('.g-item img')];
   galleryItems.forEach((img, i) => {
     img.addEventListener('click', () => openLightbox(i));
